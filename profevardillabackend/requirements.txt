@@ -1,0 +1,13 @@
+langchain
+langchain-huggingface
+langchain-community
+chromadb
+pypdf
+sentence-transformers
+torch
+marker-pdf
+Pillow
+jsonschema
+django
+djangorestframework
+django-cors-headers
