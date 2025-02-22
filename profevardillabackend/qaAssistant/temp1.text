@@ -1,0 +1,638 @@
+========= DOCUMENTOS ORIGINALES =========
+
+--------- DOCUMENTO 1 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 0, 'page_label': '1'}
+1
+Desarrollo deSoftware I
+Mauricio   Gaonamauricio.gaona@correounivalle.edu.coProfesor
+Facultad de IngenieríaEscuela de Ingeniería de Sistemas y Computación
+2022-II
+
+
+--------- DOCUMENTO 2 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 1, 'page_label': '2'}
+2
+Agenda
+03ACTIVIDADES PROXIMA CLASE
+02Requerimientos para el desarrollo de una aplicación de software.REQUERIMIENTOS
+01Aspectos generales vistos en la clase anterior. RESUMEN
+Desarrollo deSoftware I
+
+
+--------- DOCUMENTO 3 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 2, 'page_label': '3'}
+3
+Estado actual de la industria del software
+Desarrollo deSoftware I
+
+
+--------- DOCUMENTO 4 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 3, 'page_label': '4'}
+4
+Conceptos: Crisis del software
+Desarrollo deSoftware I
+Reporte (2020) Caos ReportStandishGroup(encuesta a nivel mundial a empresas que hacen software)
+45%Proyectos que presentaron muchas dificultades
+36%Proyectos exitosos
+19%Proyectos que fracasaron
+Problemas de calidad,Entregas tardíasy SobrecostosCrisis del software:
+Resumen
+
+
+--------- DOCUMENTO 5 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 4, 'page_label': '5'}
+5
+Conceptos
+Desarrollo deSoftware I
+• Entendimiento equivocado del desarrollo de software.• Mitos del software.• Falsas asunciones.• No distinguir entre hacer un programa de computador y el desarrollo de un producto de software.• Los programas de software crecen exponencial mente en complejidad y nivel de dificultad con respecto al tamaño.• Los desarrollo sin metodologías no funcionan.• Los programadores no son entrenados en los proceso y metodologías de desarrollo de software.• Complejidad interna.
+Por qué las estadísticas son tan malas ?
+Resumen
+
+
+--------- DOCUMENTO 6 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 5, 'page_label': '6'}
+6
+Conceptos
+Desarrollo deSoftware I
+¿Quées software ?
+I Instrucciones(programasde computador) que cuandose ejecutanproveenla funcionalidady rendimientorequerido.
+D Documentosque describenla operacióny usode los programas.
+E Estructurasde datosque permitena los programasmanipularla informaciónadecuadamente.
+Resumen
+
+
+--------- DOCUMENTO 7 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 6, 'page_label': '7'}
+7
+Conceptos
+Desarrollo deSoftware I
+Lo novedoso
+Resumen
+
+
+--------- DOCUMENTO 8 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 7, 'page_label': '8'}
+8
+Conceptos
+Desarrollo deSoftware I
+El Modelo de Ciclo de Vida de Desarrollo de softwareConjunto de etapas que describen el proceso de desarrollo de software desde su nacimiento hasta su reemplazo o eliminación.
+Resumen
+
+
+--------- DOCUMENTO 9 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 8, 'page_label': '9'}
+9
+Desarrollo deSoftware I
+Metodologías
+➢Sonunacoleccióndemétodosaplicadosalolargodelciclodevidadedesarrollodesoftware,coherentesentresíyquesiguenunafilosofíaoenfoquededesarrollodesoftware.
+➢Esunmarcodetrabajousadoparaestructurar,planificarycontrolarelprocesodedesarrollodeunsistemadesoftware.
+➢Ejemplo:MetodologíasTradicionales:RUP,MSF,....MetodologíasÁgiles:SCRUM,XP,Kanban...
+Resumen
+
+
+--------- DOCUMENTO 10 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 9, 'page_label': '10'}
+10
+Conceptos
+Desarrollo deSoftware I
+Metodología ágil Scrum
+Resumen
+
+
+--------- DOCUMENTO 11 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 10, 'page_label': '11'}
+11
+Preguntas ?
+Desarrollo deSoftware I
+
+
+--------- DOCUMENTO 12 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 11, 'page_label': '12'}
+12
+Desarrollo deSoftware I
+REQUREMIENTOS DEL SOFTWARE
+Un requisito o requerimiento es una declaración que identifica una característica o restricción operativa, funcional o de diseño de un producto o proceso, que es no ambigua, comprobable o medible, y necesaria para la aceptación del producto o proceso.Los requerimientos  especifican lo que desea el cliente y definen las acciones o actividades que debe hacer o cumplir un sistema de software.
+
+
+--------- DOCUMENTO 13 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 12, 'page_label': '13'}
+13
+Desarrollo deSoftware I
+Entender claramente cual es el objetivo
+Realizar la estimación de costos de desarrollo
+Crear un plan de trabajo
+Establecer prioridades
+Definir adecuadamente los requerimientos permitirá:
+
+
+--------- DOCUMENTO 14 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 13, 'page_label': '14'}
+14
+Desarrollo deSoftware I
+¿De donde provienen los errores en el Desarrollo de software?
+
+
+--------- DOCUMENTO 15 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 14, 'page_label': '15'}
+15
+●Una condición o necesidad de un usuario para resolver un problema o alcanzar un objetivo.
+Resuelveuna necesidad
+Capacidad que debe estar presente en un sistema o componentes del sistema para satisfacer un contrato, un estándar, una especificación u otro documento formal.
+Satisface condiciones
+Definen lo que el sistema debe hacer en cuanto a sus procesos, consultas, reportes, ...
+Define lo que se necesita
+321
+Desarrollo deSoftware I¿Qué es un requerimiento?
+
+
+--------- DOCUMENTO 16 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 15, 'page_label': '16'}
+16
+Desarrollo deSoftware I
+Clasificación de los requerimientos.
+RequerimientosRequeremientos funcionalesRequerimientos no funcionales
+Rendimiento
+De calidad
+Restricciones
+Tecnología
+
+
+--------- DOCUMENTO 17 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 16, 'page_label': '17'}
+17
+Desarrollo deSoftware I
+Clasificación de los requerimientos.
+Los requerimientosfuncionales•Declaraciones de los servicios que debe proporcionar el sistema, la forma en que el sistema debe reaccionar a las entradas y la forma en que el sistema debe comportarse en situaciones particulares.
+Requerimientosno funcionales•Limitaciones en los servicios o funciones ofrecidas por el sistema como de tiempo, limitaciones en el proceso de desarrollo, de rendimiento, de calidad, normas, tecnología, etc
+
+
+--------- DOCUMENTO 18 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 17, 'page_label': '18'}
+18
+Desarrollo deSoftware I
+Requerimientos funcionales.
+Los requisitos o requerimientos funcionales son declaraciones de los servicios que prestará el sistema, en la forma en que reaccionará a determinados insumos.Generalmente, los requerimientosfuncionales describen el comportamiento del sistema en condiciones específicas.En algunos casos, los requisitos funcionales de los sistemas también establecen explícitamente lo que el sistema no debe hacer.
+
+
+--------- DOCUMENTO 19 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 18, 'page_label': '19'}
+19
+Desarrollo deSoftware I
+Requerimientos funcionales.
+Los requerimientos.
+●se suelen especificar en lenguaje natural, 
+●se expresan de forma individual y 
+●se organizan de forma jerárquica(a distintos niveles de detalle), 
+●a menudo, se numeran (para facilitar su gestión)
+
+
+--------- DOCUMENTO 20 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 19, 'page_label': '20'}
+20
+Desarrollo deSoftware I
+Requerimientos funcionales.
+Requerimientos en las metodologías tradicionales
+
+
+--------- DOCUMENTO 21 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 20, 'page_label': '21'}
+21
+Desarrollo deSoftware I
+Ejemplos de requerimientos funcionales.El sistema debe permitir crear un usuario del sistema.El sistema debe permitir registrar participantes a un evento.El sistema debe permitir registrar la venta de un artículo.El sistema debe permitir anular una nota débito.El sistema debe permitir a los usuarios contratistas poder registrar sus pagos de certificación al sistema de seguridad social junto al valor pagado por cada concepto como son: ARL, Pensión y EPS junto con el número de la planilla que lo soporta.
+
+
+--------- DOCUMENTO 22 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 21, 'page_label': '22'}
+22
+Desarrollo deSoftware I
+Imprecisión en los requerimientos.
+
+
+--------- DOCUMENTO 23 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 22, 'page_label': '23'}
+23
+Desarrollo deSoftware I
+Imprecisión en los requerimientos.
+Los problemas surgen cuando los requerimientos no son declarados con precisión.
+Requerimientos ambiguos pueden interpretarse de diferentes maneras por los desarrolladores y usuarios.
+Deben estar redactados de tal forma que sean comprensibles para usuarios sin conocimientostécnicos avanzados.
+
+
+--------- DOCUMENTO 24 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 23, 'page_label': '24'}
+24
+Desarrollo deSoftware I
+Características de los requerimientos.
+Necesario: Lo que pida un requisito debe ser necesario para el producto.Correcto: sí y solo sí, cada requisito especificado es un requisito que el software debe cumplir.No ambiguo: El texto debe ser claro, preciso y tener una única interpretación posible.Conciso: Debe redactarse en un lenguaje comprensible por los clientes en lugar de uno de tipo técnico y especializado, aunque aún así debe referenciar los aspectos importantesConsistente: Ningún requisito debe entrar en conflicto con otro requisito diferente. Asimismo, el lenguaje empleado entre los distintos requisitos debe ser consistente también.Completo: Los requisitos deben contener en sí mismos toda la información necesaria, y no remitir a otras fuentes externas que los expliquen con más detalle.Alcanzable: Un requisito debe ser un objetivo realista, posible de ser alcanzado con el dinero, el tiempo y los recursos disponibles.Verificable: Se debe poder verificar con absoluta certeza, si el requisito fue satisfecho o no. Esta verificación puede lograrse mediante inspección, análisis, demostración o testeo.
+
+
+--------- DOCUMENTO 25 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 24, 'page_label': '25'}
+25
+Desarrollo deSoftware I
+Requerimientos no adecuados.
+El sistema será lo más fácil de utilizar posible.El sistema proporcionará una respuesta rápida al usuario.El sistema se recuperará automáticamente tras producirse un fallo.
+
+
+--------- DOCUMENTO 26 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 25, 'page_label': '26'}
+26
+Desarrollo deSoftware I
+Requerimientos adecuados.
+Cuando haya hasta 100 usuarios accediendo simultáneamente al sistema, su tiempo de respuestano será en ningún momento superior a 5 segundos.Ante un fallo en el software del sistema, no se tardará más de 10 minutos en restaurar los datos del sistema (en un estado válido) y volver a poner en marcha el sistema.Condiciones verificables
+
+
+--------- DOCUMENTO 27 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 26, 'page_label': '27'}
+27
+Desarrollo deSoftware I
+Recomendaciones para redactar requerimientos.
+Usar un formato estándar y asegurar la adherencia al mismo para todos los requerimientos.Utilizar el lenguaje de manera consistente.Resaltar el texto para distinguir las partes clave del requerimiento.Evite el uso de jerga informática.
+
+
+--------- DOCUMENTO 28 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 27, 'page_label': '28'}
+28
+Desarrollo deSoftware I
+Formato para registrar detalles de un requerimiento.Nombre del requerimientoEl sistema debe permitir registrar participantes a un evento
+Descripción
+Proceso
+•Detalles de los requerimientos que le sirven al desarrollador para entender con más precisión lo que hay que programar.
+
+
+--------- DOCUMENTO 29 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 28, 'page_label': '29'}
+29
+Desarrollo deSoftware I
+Formato para registrar detalles de un requerimiento.
+
+
+--------- DOCUMENTO 30 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 29, 'page_label': '30'}
+30
+Desarrollo deSoftware I
+Ejercicio
+Elaborar la descripción de un requerimiento funcional para el proceso de registro de un curso en el sistema de la universidad.
+
+
+--------- DOCUMENTO 31 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 30, 'page_label': '31'}
+31
+Desarrollo deSoftware I
+Proceso para especificar requerimientos
+Está relacionado con las actividades para determinar los requerimientos:Elicitación: Captura, descubrimiento y adquisición de requerimientos.(Identificación de actores y funcionalidades)Análisis: Detectar y resolver conflictos entre los requerimientos, clasificar los requerimientosEspecificación: Producción del documento de requerimientosValidación: Validar para asegurar que los requerimientos fueron entendidos y que define lo que el cliente desea
+
+
+--------- DOCUMENTO 32 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 31, 'page_label': '32'}
+32
+Desarrollo deSoftware I
+Proceso para especificar requerimientos
+ElicitaciónActividadesObtenciónRequerimientos
+Identificaciónde actores
+IdentificaciónFuncionalidades
+●Personas
+●Otro sistema
+●Dispositivos
+●Lo que se desea que el sistema haga
+
+
+--------- DOCUMENTO 33 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 32, 'page_label': '33'}
+33
+Desarrollo deSoftware IProceso para especificar requerimientosEspecificacióndel SistemaDeterminación deRequerimientos
+DocumentaciónObtención Validación
+Entrevistas con los usuariosTalleres (Lluvia de ideas)Estudiar sistemas parecidosEncuestasPrototiposBPM
+Comprobar lasCaracterísticas de losrequerimientosSRSTécnicas
+
+
+--------- DOCUMENTO 34 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 33, 'page_label': '34'}
+34
+Desarrollo deSoftware I
+Requerimientos no funcionalesTécnicas para obtener requerimientos
+La entrevista es un diálogo formal o informal con personas, donde se busca respuesta a un conjunto de preguntas planeadas.•Identificar el propósito de la entrevista : preguntas que permitan entender con claridad cada cosa que el cliente desea•Identificar posibles entrevistados : funcionarios de diferentes niveles•Estudiar el problema planteado•Familiarizarse con el vocabulario del negocio•Tomar apuntes o grabar la reunión.
+Las entrevistas de los usuarios y las partes interesadas son importantes para crear un software adecuado. Sin conocer las expectativas y el objetivo de las partes interesadas y los usuarios, es muy poco probable que los satisfaga.
+Entrevistas
+
+
+--------- DOCUMENTO 35 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 34, 'page_label': '35'}
+35
+Desarrollo deSoftware I
+Requerimientos no funcionalesTécnicas para obtener requerimientosEntrevistas con los usuarios:
+Recomendaciones: Evitar
+Tarea ver video: https://youtu.be/2KZKMY75cJM
+
+
+--------- DOCUMENTO 36 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 35, 'page_label': '36'}
+36
+Desarrollo deSoftware I
+Requerimientos no funcionalesTécnicas para obtener requerimientosLluvia de ideas: Reunión donde se proponen ideas para solucionar un problema.
+•Tener un plan : dividir el problema en partes pequeñas. Ej: hacer diagramas en papel o tableros ayuda a aclarar cosas y capturar colaboración.•Proponer varias alternativas (ir preparado). •Combinar ideas.•Tenga un moderador y limite el tiempo de discusión de cada parte.•Tomar apuntes o grabar la reunión.
+Por lo general, la lluvia de ideas se utiliza para identificar todas las posibles soluciones a los problemas y simplifica el detalle de las oportunidades.
+
+
+--------- DOCUMENTO 37 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 36, 'page_label': '37'}
+37
+Desarrollo deSoftware I
+Requerimientos no funcionalesTécnicas para obtener requerimientosBPM: Business ProcessModel.  BPMNBusiness ProcessModelNotation
+
+
+--------- DOCUMENTO 38 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 37, 'page_label': '38'}
+38
+Desarrollo deSoftware I
+Requerimientos no funcionalesTécnicas para obtener requerimientos
+Tarea: Próxima clase control de lectura.1.Ver video: https://youtu.be/2KZKMY75cJM2.Leer documento: RequirementsGatheringTechniqueshttps://www.linkedin.com/pulse/requirements-gathering-techniques-samgra-malik/
+
+
+--------- DOCUMENTO 39 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 38, 'page_label': '39'}
+39
+Desarrollo deSoftware I
+Requerimientos no funcionalesTécnicas para validación de requerimientos1.Validación de expertosPersonas con experiencia revisan los requerimientos y aprueban o rechazan el requerimiento2.Prototipadode interfaz de usuarioEl prototipadode interfaz de usuario es una técnica de representación aproximada de la interfaz de usuario Los dos tipos principales de prototipos de interfaz de usuario son:•Desechables: se utilizan sólo para la validación de los requisitos y posteriormente se desechan. Pueden ser prototipos en papel o en software.•Evolutivos:una vez utilizados para la validación de los requisitos, se mejora su calidad y se convierten progresivamente en el producto final.
+3.Recorrido de BPM: Hacer un BPM que muestre todo el proceso, algoritmo de alto nivel
+
+
+--------- DOCUMENTO 40 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 39, 'page_label': '40'}
+40
+Desarrollo deSoftware I
+Requerimientos no funcionales
+Requerimientos no funcionales en las metodologías tradicionales
+
+
+--------- DOCUMENTO 41 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 40, 'page_label': '41'}
+41
+Desarrollo deSoftware I
+Requerimientos no funcionales
+Especifican "qué tan bien" y "como" debe comportarse un sistemaImponen restriccionesque típicamente limitan los requerimientos funcionalesTambién conocidos como "requisitos técnicos", "atributos de calidad"o" requisitos de calidad de servicio "
+
+
+--------- DOCUMENTO 42 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 41, 'page_label': '42'}
+42
+Desarrollo deSoftware I
+Requerimientos no funcionalesSon aquellos requerimientos que no se refieren directamente a las funcionesespecíficas que entrega el sistema, sino a las propiedadesemergentes de éstecomo la fiabilidad, la respuesta en el tiempo y la capacidad de almacenamiento.De forma alternativa, definen las restriccionesdel sistema como la capacidadde los dispositivos de entrada/salida y la representación de datos que se utilizaen la interface del sistema.Factores internos: Los requerimientos no funcionales surgen de la necesidaddel usuario, debido a las restricciones en el presupuesto, a las políticasde laorganización, a la necesidad de interoperabilidadcon otros sistemas de softwareo hardware.Factores externos: como los reglamentos de seguridad, las políticasdel govierno,entre otros.
+
+
+--------- DOCUMENTO 43 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 42, 'page_label': '43'}
+43
+Desarrollo deSoftware I
+Tipos de requerimientos no funcionalesEficiencia:●Toda funcionalidad del sistema y transacción de negocio debe responder al usuarioen menos de 5 segundos.●El sistema debe ser capaz de operar adecuadamente con hasta 100 usuarioscon sesiones concurrentes.Seguridad de lógica y de datos●Los permisos de acceso al sistema podrán ser cambiados solamente por eladministrador del sistema.●Todas las comunicaciones externas entre servidores de datos, aplicación ycliente del sistema deben estar encriptadas utilizando el algoritmo RSA.Usabilidad●El sistema debe contar con manuales de usuario estructurados por cada módulo y funcionalidad.●El sistema debe contar con un módulo de ayuda en línea.Tecnología●El sistema debe ser desarrollado usando el lenguaje Java Versión 8●El sistema debe funcionar en el sistema operativo Linux, Windows y MacOS
+
+
+--------- DOCUMENTO 44 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 43, 'page_label': '44'}
+44
+Desarrollo deSoftware I
+Requerimientos funcionales.
+Requerimientos en las metodologías ágiles
+
+
+--------- DOCUMENTO 45 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 44, 'page_label': '45'}
+45
+Desarrollo deSoftware I
+Requerimientos en las metodologías ágiles
+El Desarrollo ágil de software es un paradigma usado en las metodologías de desarrollo de software basado en procesos ágiles.• Las metodologías ágiles se concibieron como una alternativa a las prácticas de desarrollo de software tradicional• Es una “sombrilla” para un conjunto de valores, principios y prácticas• El desarrollo ágil es una forma diferente de gestionar equipos y proyectos de desarrollo de Software• Las Historias de Usuario (HU) es el mecanismo usado para obtener las necesidades del usuario.
+
+
+--------- DOCUMENTO 46 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 45, 'page_label': '46'}
+46
+Desarrollo deSoftware I
+Técnicas para obtener requerimientos en las metodologías ágiles
+Entrevistas con los usuariosTalleres (Lluvia de ideas)Estudiar sistemas parecidosEncuestasPrototiposBPM
+Leer documento sobre técnicas para obtener requerimientosVer campus virtualhttps://www.indeed.com/career-advice/career-development/requirement-gathering-techniques
+
+
+--------- DOCUMENTO 47 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 46, 'page_label': '47'}
+47
+Desarrollo deSoftware I
+Requerimientos en las metodologías ágiles
+Historias de usuario
+Las Historias de Usuario describen las necesidades de algo que es valioso para un usuario de un sistema o software.Una historia debe permitir conocer la base de las necesidades del usuario, así como los detalles que después permitan fijar la batería de pruebas  para poder determinar si un desarrollo es correcto o no.Las historias de usuario luego se pueden dividir en tareas técnicas para su implementación.Las historias de usuario son la base para aplicar las metodologías de desarrollo.
+
+
+--------- DOCUMENTO 48 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 47, 'page_label': '48'}
+49
+Desarrollo deSoftware I
+Requerimientos en las metodologías ágilesCaracterísticas deseables de las historias de usuario (HU)
+
+
+--------- DOCUMENTO 49 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 48, 'page_label': '49'}
+50
+Desarrollo deSoftware I
+Requerimientos en las metodologías ágilesEjemplos de historias de usuario
+Como estudiantedeseo registrarme enun curso paramatricularme en la universidad
+ActorLa tareaPropósito
+Plantilla:   Como <Actor>deseo <tarea> para<propósito>
+
+
+--------- DOCUMENTO 50 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 49, 'page_label': '50'}
+51
+Desarrollo deSoftware I
+Requerimientos en las metodologías ágilesEjemplos de historias de usuario
+1.Como Operador deseo poder registrar un producto en el sistema para mantener actualizado el inventario de productos.
+2. Como Vendedor, deseo registrar los productos y cantidades que me solicita un cliente para crear un pedido de venta.
+
+
+--------- DOCUMENTO 51 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 50, 'page_label': '51'}
+52
+Desarrollo deSoftware I
+Ejercicio: Elaborar la descripción de una historia de usuario
+Elaborar la descripción de una historia de usuario para crear una factura de venta de un producto a un cliente
+Elaborar la descripción de una historia para el proceso de retiro en efectivo en un cajero automático
+Plantilla:   Como <Actor>deseo <tarea> para<propósito>
+
+
+--------- DOCUMENTO 52 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 51, 'page_label': '52'}
+53
+Desarrollo deSoftware I
+Historia de usuario épicas
+“Una historia épica es una gran historia de usuario que no se puede entregar como se define en una sola iteración o es lo suficientemente grande como para dividirse en historias de usuario más pequeñas.”Caraterística principalSistemaÉpicasComponente grande
+Historia de usuario 1Historia de usuario 2Historia de usuario 3Historia de usuario n
+Tarea 1Tarea 2Tarea 3Tarea 1Tarea 2Tarea 3
+
+
+--------- DOCUMENTO 53 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 52, 'page_label': '53'}
+54
+Desarrollo deSoftware IDescomponer una Historia de usuario en tareas
+Historia de usuarioTarea 1Tarea 2Tarea 3…Tarea N¿Para qué dividir una historia de usuario en tareas ?-Puede conducir a estimaciones más precisas.-Puede ayudar para pedir colaboración mas específicas.-Puede ayudar a los desarrolladores senior a ser mentores de los desarrolladores junior.-Se pueden usar como una medida de progreso.Importante: Solo divida la HU si es necesario, muchos equipos evitan este paso.
+
+
+--------- DOCUMENTO 54 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 53, 'page_label': '54'}
+55
+Desarrollo deSoftware IDescomponer una Historia de usuario en tareas
+Recomendaciones:•Descomponga la HU en tareas técnicas.•No programe tareas muy pequeñas.•Trate de programar tareas con duración de horas o días y que  puedan mostrar avances.•Antes de implementar tareas debes de cero verifique si hay componentes listos que pueda usar.
+¿Cómo descomponer historia de usuario en tareas?No hay una formula para hacer esto.Depende de la HU las tareas a realizar.
+
+
+--------- DOCUMENTO 55 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 54, 'page_label': '55'}
+56
+Desarrollo deSoftware IDescomponer una Historia de usuario en tareasEjemplo: HU003. Como usuario operador deseo poder registrar en el sistema datos de un cliente para crear una cuenta al cliente.
+TareaDescripción de la tarea1Diseñar e Implementar formulario para capturar los datos del cliente.2Adicionar tablas y/o campos en la BDatos para registrar los datos del formulario.3Implementar lógica para leer y validar los campos del formulario.4[Implementar mensaje fallo del proceso si ocurre]5Implementar el registro de datos del formulario en la BDatos.6Implementar mensaje de éxito o fallo del proceso.7Ejecutar plan de pruebas (Realizar las pruebas de aceptación definidas).8Realizar actividades del DoD.
+Dividir la HU en tareas técnicas¿Cómo podemos dividir esta HU en tareas?
+
+
+--------- DOCUMENTO 56 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 55, 'page_label': '56'}
+57
+Desarrollo deSoftware I
+Historia de usuario épicasComo usuario administrador del sistema deseo poder gestionar usuarios para poder administrar los usuariosEsta épica se puede subdividir en:
+●Como usuario administrador deseo poder crearun usuario para registralo en el sistema.
+●Como usuario administrador deseo poder modificarlos datos de un usuario para actualizar información de un usuario.
+●Como usuario administrador deseo poder listarlos usuarios registrados en el sistema para conocer el tipo de usuarios se tienen el sistema.
+●Como usuario administrador deseo inhabilitar (borrar) un usuario para desactivar un usuario del sistema.
+
+
+--------- DOCUMENTO 57 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 56, 'page_label': '57'}
+58
+Desarrollo deSoftware I
+Historia de usuario épicas
+Como Vicepresidente de mercadeo y ventas, quiero revisar el desempeño histórico de las ventas, para poder identificar las regiones geográficas y productos de mejor desempeño
+Ejemplos de HU:http://www.pmoinformatica.com/2015/05/historias-de-usuario-ejemplos.html
+Esta épica se puede subdividir en:
+• Como VP de Mercadeo, deseo seleccionar el período de tiempo en el cual realizaré la revisión de las ventas para poder revisar las ventas de diferentes periodos.
+• Como VP de Mercadeo, deseo clasificar la información de ventas por región geográfica y productos para tener la información clasificada.
+
+
+--------- DOCUMENTO 58 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 57, 'page_label': '58'}
+59
+Desarrollo deSoftware I
+Detalles de una historia de usuario
+12345
+Historia de Usuario (HU)Código HU:HU0023Fecha:17/02/2022Sprint:1 Prioridad:AltaActor(es):GerentePuntos:3Descripción:Como gerentedeseo ver las ventas semanales de mi empresa para conocer como se comportan las ventas día a día.Detalles de la HU:[Colocar aquí toda la información que se requiera para entender la HU: Tareas, Texto (entradas, proceso, salida), fotos videos, audio, BPM, diseño de interfaces de usuario, etc]
+Restricciones:1.Solo los usuarios con privilegios de gerente pueden acceder al reporte.2.El tiempo de despliegue del reporte no debe exceder 4 segundosCriterios de aceptación: (Detalle de las HU desde el punto de vista de calidad y se traducen en pruebas)Criterio 1,   Criterio 2, …DoD (Definition of Done): Lista de actividades que se deben cumplir para que la historia esté en donciciones de ser entregado al cliente.6
+
+
+--------- DOCUMENTO 59 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 58, 'page_label': '59'}
+60
+Desarrollo deSoftware IDetalles de una historia de usuario : Criterios de aceptación
+ItemCriterio de aceptación : las condiciones que un producto de software debe satisfacer para seraceptadopor un usuario, cliente o stakeholder.1Un usuario no puede enviar un formulario sin completar todos los campos. 2El login no puede ser igual al password. 3El password debe tener al menos 6 caracteres, una letra en mayúscula, un símbolo y un número.4Los campos de entrada de datos se deben validar antes de ejecutarlos o guardarlos.PruebaLoginPasswordResultado esperado1 Login o password vacíos 2 123456789 123456789 Login o password incorrecto 3 usuario Secret()22 Login exitoso 
+4 pruebaSELECT * FROM Users WHERE Username='1' OR '1' = '1' AND Password='1' OR '1' = '1' Login o password incorrecto
+PruebasdeAceptación
+Como usuario deseo poder loguearmeen el sistema para poder ingresar al sistema
+
+
+--------- DOCUMENTO 60 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 59, 'page_label': '60'}
+62
+Desarrollo deSoftware IDetalles de una historia de usuario
+Cada equipo de desarrollo tiene su propia definición, pero la DoDpuede ser una lista de actividades o simplemente una serie de acuerdos que agregan valor verificable y demostrable al producto.Es un entendimiento compartido de lo que significa que una historia de usuario está realmente terminada.
+DoD (Definition of Done):  <<Definición de hecho>>
+DoD
+DiseñoCódigoDocumentaciónDesplieguePruebasOtros
+
+
+--------- DOCUMENTO 61 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 60, 'page_label': '61'}
+63
+Desarrollo deSoftware IDetalles de una historia de usuario
+DoD (Definition of Done):  Ejemplo para cada historia de usuario1.El diseño de la historia fue aprobada (Productownery equipo de desarrollo)2.La historia esta terminada a criterio del desarrollador 3.La historia paso las pruebas según los criterios de aceptación en el ambiente de desarrollo.4.La historia paso las pruebas  definidas en el ambiente de pruebas y de preproducción5.Se realizó la documentación (técnica y manuales de usuario si se requiere)6.[OK de almenos un integrante del equipo de desarrollo y del Product Owner; se verifica si satisface el requerimiento y si el código sigue es estándar de codificación acordado.]7.Esta todo preparado para la subirla a producción.8.La historia esta marcada como terminada en la herramienta de control
+DoD (Definition of Done):  <<Definición de hecho>>
+
+
+--------- DOCUMENTO 62 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 61, 'page_label': '62'}
+64
+Desarrollo deSoftware IDetalles de una historia de usuario
+DoDpara el Sprint:  Ejemplo 1.Se cumple con el DoDde todas las Historias del Sprint.2.Todas las historias acordadas durante en Sprint Planningestánterminadas.3.Demo verificado en el Reviewpor parte de ProductOwnerystakeholders.4.OK del ProductOwneral Sprint.
+DoD (Definition of Done):  <<Definición de hecho>>
+
+
+--------- DOCUMENTO 63 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 62, 'page_label': '63'}
+65
+Desarrollo deSoftware IDetalles de una historia de usuario
+DoDpara el Proyecto o cada Release:  Ejemplo 1.Se cumple con elDoDde cada Sprint del Releaseo del proyecto.2.Se cumple con las pruebas definidas para el Releaseen preproducción (carga, integración, seguridad, etc)3.Documentación unificada y subida a la herramienta de documentación.
+DoD (Definition of Done):  <<Definición de hecho>>
+
+
+--------- DOCUMENTO 64 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 63, 'page_label': '64'}
+66
+Desarrollo deSoftware I
+Historia de usuario
+ListapriorizadayestimadadelashitoriasdeusuarioProduct BackLog
+HU épica
+
+
+--------- DOCUMENTO 65 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 64, 'page_label': '65'}
+67
+Desarrollo deSoftware I
+ProductBacklog
+
+
+--------- DOCUMENTO 66 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 65, 'page_label': '66'}
+68
+Desarrollo deSoftware I
+Requerimientos no funcionales
+Requerimientos no funcionales en las metodologías ágiles
+
+
+--------- DOCUMENTO 67 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 66, 'page_label': '67'}
+69
+Desarrollo deSoftware I
+Requerimientos no funcionales en las metodologías ágilesImponen restricciones para guiar el trabajo en un proyecto de desarrollo• Una restricción es una condición para los requisitos en línea con las expectativas de calidad• Una restricción establece un límite o algo a cumplir
+
+
+--------- DOCUMENTO 68 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 67, 'page_label': '68'}
+70
+Desarrollo deSoftware I
+Requerimientos no funcionales en las metodologías ágiles (restricciones)Ejemplo:HU: Como gerentedeseo ver las ventasde mi empresa para saber como se comportan las ventas día a día.Restricciones:1. Las ventas se deben desplegar mediante un diagrama de barras2. El tiempo de despliegue del reporte no debe exceder de 5 segundosOtros:•El cuadro de búsqueda debe aceptar valores alfanuméricos•El botón Buscar debe aparecer debajo del cuadro de búsqueda•Los resultados de búsqueda deben mostrar solo 15 elementos buscados por página•El sistema responde a todas las solicitudes de búsqueda dentro de los 5 segundos posteriores a la recepción de la solicitud.
+Lunes     Martes Miércoles Jueves   Viernes
+Ventas del 1 al 5 de febrero de 2021
+Nota: En muchos casos las restricciones se definen de manera global para el sistema y solo se colocan restricciones en un historia de usuario si es algo muy crítico para el sistema o particular de una historia.
+
+
+--------- DOCUMENTO 69 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 68, 'page_label': '69'}
+UnequipodeexpertosrevisalaHU,aplica(INVEST)yusauncriteriomayoritario.Validación de expertos
+•Desechables•EvolutivosPrototipado de interfaz de usuarioPrototipado de interfaz de usuario
+Desarrollo deSoftware IValidación de historias de usuario
+Validación deHistorias de usuario
+HacerunBPMquemuestretodoelprocesoyverificarquenofaltenHU.Recorrido BPM
+
+
+--------- DOCUMENTO 70 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 69, 'page_label': '70'}
+72
+Preguntas ?
+Desarrollo deSoftware I
+
+
+--------- DOCUMENTO 71 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 70, 'page_label': '71'}
+73
+ActividadesLeer documento sobre técnicas de recopilación de requerimientos (para el próxima clase)https://www.indeed.com/career-advice/career-development/requirement-gathering-techniques
+Desarrollo deSoftware I
+
+
+--------- DOCUMENTO 72 ---------
+Metadata: {'producer': 'iLovePDF', 'creator': 'PyPDF', 'creationdate': "D:20220929202001Z00'00'", 'moddate': '2022-09-29T20:20:23+00:00', 'source': 'D:\\Universidad\\Noveno Semestre\\trabajo de grado\\profevardillabackend\\qaAssistant\\rag_pdf_data\\Clase2-DS1-2022-II-NP_compressed.pdf', 'total_pages': 72, 'page': 71, 'page_label': '72'}
+Gracias
+Desarrollo I
+Desarrollo deSoftware I

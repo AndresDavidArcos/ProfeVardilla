@@ -1,0 +1,57 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+*.env
+*.venv
+Pipfile
+Pipfile.lock
+
+# Django-specific
+*.log
+db.sqlite3
+media/
+staticfiles/
+
+# Migrations
+**/migrations/*
+
+# VS Code settings
+.vscode/
+
+# IDEs and editors
+.idea/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Node.js (React frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build artifacts
+build/
+dist/
+coverage/
+*.map
+.DS_Store
+
+# React-specific
+/public/static
+/.parcel-cache
+/.next
+.next/
+out/
