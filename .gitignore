@@ -16,6 +16,7 @@ Pipfile.lock
 db.sqlite3
 media/
 staticfiles/
+rag_chroma/
 
 # Migrations
 **/migrations/*

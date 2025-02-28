@@ -36,25 +36,38 @@ function App() {
             setIsLoading(true);
 
             try {
+                const debuggingMode = true;
                 const response = await fetch('http://localhost:8000/assistant/ask/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ question: text }),
+                    body: JSON.stringify({ question: text, debugging: debuggingMode }), // Activar modo debugging
                 });
-    
+            
                 const data = await response.json();
                 if (response.ok) {
-                    setMessages((prev) => [
-                        ...prev,
-                        {
-                            id: Date.now(),
-                            text: data.answer || 'Lo siento, no tengo una respuesta para eso.',
-                            sender: 'assistant',
-                            timestamp: new Date(),
-                        },
-                    ]);
+                    if (debuggingMode) {  
+                        setMessages((prev) => [
+                            ...prev,
+                            {
+                                id: Date.now(),
+                                text: JSON.stringify(data.answer.context, null, 2), // Mostrar el contexto formateado
+                                sender: 'assistant',
+                                timestamp: new Date(),
+                            },
+                        ]);
+                    } else {
+                        setMessages((prev) => [
+                            ...prev,
+                            {
+                                id: Date.now(),
+                                text: data.answer || 'Lo siento, no tengo una respuesta para eso.',
+                                sender: 'assistant',
+                                timestamp: new Date(),
+                            },
+                        ]);
+                    }
                 } else {
                     console.error('Error en la respuesta del servidor:', data);
                 }
@@ -69,9 +82,9 @@ function App() {
                         timestamp: new Date(),
                     },
                 ]);
-            }finally {
+            } finally {
                 setIsLoading(false); 
-            }
+            }            
         }
     };
     
