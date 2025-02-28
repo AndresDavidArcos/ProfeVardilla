@@ -11,3 +11,6 @@ jsonschema
 django
 djangorestframework
 django-cors-headers
+pymupdf
+tiktoken
+rank_bm25
