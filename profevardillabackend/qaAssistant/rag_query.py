@@ -3,14 +3,13 @@ import requests
 import unicodedata
 import json
 from django.conf import settings
-from langchain.prompts import PromptTemplate
-from langchain.embeddings import SentenceTransformerEmbeddings
-from langchain.vectorstores.chroma import Chroma
-from langchain.retrievers import BM25Retriever, EnsembleRetriever
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_chroma import Chroma
+from langchain_community.retrievers import BM25Retriever
+from langchain.retrievers import  EnsembleRetriever
 from langchain.schema import Document
 from sentence_transformers import CrossEncoder
 
-# Rutas
 CHROMA_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chroma")
 CHUNKS_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chunks")
 DEBUGGINGFILES = os.path.join(settings.BASE_DIR, "qaAssistant", "debuggingfiles")
@@ -24,8 +23,6 @@ CONTEXTO:
 PREGUNTA:
 {question}
 """
-
-url = "https://6b66-34-75-69-87.ngrok-free.app"
 
 def preprocess_query(query):
     query = query.lower()
@@ -91,14 +88,14 @@ def reconstruct_local_context(reranked_documents, chroma_collection):
     
     return final_documents
 
-def generate_context(query_text, debugging=False):
-    sentence_transformer_ef = SentenceTransformerEmbeddings(
+def generate_context(query_text):
+    embeddingFunction = HuggingFaceEmbeddings(
         model_name="Alibaba-NLP/gte-Qwen2-1.5B-instruct"
     )
     dense_vectorstore = Chroma(
         persist_directory=CHROMA_PATH,
         collection_name="desarrollo_software", 
-        embedding_function=sentence_transformer_ef
+        embedding_function=embeddingFunction
     )
     dense_retriever = dense_vectorstore.as_retriever(search_kwargs={"k": 10})
     
@@ -112,37 +109,87 @@ def generate_context(query_text, debugging=False):
         weights=[0.3, 1]
     )
     
-    ensemble_results = ensemble_retriever.get_relevant_documents(query_text)
+    ensemble_results = ensemble_retriever.invoke(query_text)
     reranked_documents = rerank_documents(query_text, ensemble_results, "cross-encoder/ms-marco-MiniLM-L-12-v2", 10)
     final_documents = reconstruct_local_context(reranked_documents, dense_vectorstore)
+    context = "\n\n".join(
+    [
+        f"### Documento {i+1} ###\n"
+        f"source: {doc.metadata.get('source', 'Desconocida')}\n"
+        f"page: {doc.metadata.get('page', 'N/A')}\n"
+        f"content:\n{doc.page_content}\n"
+        f"##########################"
+        for i, doc in enumerate(final_documents)
+    ]
+    )
     
-    if debugging:
-        return [doc.page_content for doc in final_documents]
-    
-    context_text = "\n\n---\n\n".join([doc.page_content for doc in final_documents])
-    save_docs_to_file([context_text], filename="rag_results.md")
-    return context_text
+    save_docs_to_file([context], filename="rag_results.md")
+    return context, final_documents
 
-def query_rag(query_text, debugging=False):
-    context_text = generate_context(query_text, debugging)
-    if debugging:
-        return {"context": context_text}    
-    prompt_template = PromptTemplate.from_template(PROMPT_TEMPLATE)
-    prompt = prompt_template.format(context=context_text, question=query_text)
+def query_rag(query_text):
+    context, final_documents = generate_context(query_text)
+    PROMPT_TEMPLATE = """Utiliza exclusivamente el siguiente contexto para responder en español a la pregunta. No añadas información externa.  
+    Tu respuesta debe estar en formato JSON válido con la siguiente estructura, donde en respuesta vas a colocar tu respuesta a la pregunta en base al contexto dado,
+    y en documentos vas a colocar el source y page de los documentos que mas relevantes te fueron para elaborar tu respuesta, no incluyas documentos que no fueron relevantes para tu respuesta:
+    
+    {response}
+        
+    CONTEXTO:
+    {context}
+    
+    PREGUNTA:
+    {question}
+    """
+
+    json_structure = {
+        "respuesta": "", 
+        "documentos": [
+            {"source": "", "page": ""}
+        ]
+    }
+    
+    json_string = json.dumps(json_structure, indent=4, ensure_ascii=False)
+    
+    prompt = PROMPT_TEMPLATE.format(
+        context=context, 
+        question=query_text,
+        response=json_string
+    )
+
     save_docs_to_file([prompt], filename="prompt_result.md")
     
+    url = "https://api.awanllm.com/v1/chat/completions"
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer "
+    }
+    
     data = {
-        "model": "llama2",
-        "prompt": prompt,
+        "model": "Meta-Llama-3.1-8B-Instruct",  
+        "messages": [
+            {"role": "system", "content": "Eres un asistente útil."},
+            {"role": "user", "content": prompt}
+        ],
+        "repetition_penalty": 1.1,
+        "temperature": 0.7,
+        "top_p": 0.9,
+        "top_k": 40,
+        "max_tokens": 10000,
         "stream": False
     }
-    response_text = None
     try:
-        response = requests.post(url+"/api/generate", json=data, timeout=600)
+        response = requests.post(url, headers=headers, json=data, timeout=600)
         response.raise_for_status()
         response_json = response.json()
-        response_text = response_json.get("response", "No se obtuvo respuesta válida.")
+        
+        if "choices" in response_json and len(response_json["choices"]) > 0:
+            response_text = response_json["choices"][0]["message"]["content"]
+            parsed_answer = json.loads(response_text)
+            answer = parsed_answer['respuesta']
+            relevant_documents = parsed_answer['documentos']
+        else:
+            response_text = "No se obtuvo respuesta válida."
     except requests.exceptions.RequestException as e:
-        response_text = f"Error al conectar con Ollama: {e}"
+        response_text = f"Error al conectar con AwanLLM: {e}"
     
-    return response_text
+    return answer, relevant_documents, final_documents

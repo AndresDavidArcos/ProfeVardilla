@@ -1,6 +1,21 @@
 **Documento 1:**
 
-### Documento 1 ###
+Utiliza exclusivamente el siguiente contexto para responder en español a la pregunta. No añadas información externa.  
+    Tu respuesta debe estar en formato JSON válido con la siguiente estructura, donde en respuesta vas a colocar tu respuesta a la pregunta en base al contexto dado,
+    y en documentos vas a colocar el source y page de los documentos que mas relevantes te fueron para elaborar tu respuesta, no incluyas documentos que no fueron relevantes para tu respuesta:
+    
+    {
+    "respuesta": "",
+    "documentos": [
+        {
+            "source": "",
+            "page": ""
+        }
+    ]
+}
+        
+    CONTEXTO:
+    ### Documento 1 ###
 source: D:\Universidad\Noveno Semestre\trabajo de grado\profevardillabackend\qaAssistant\rag_pdf_data\Clase2-DS1-2022-II-NP_compressed.pdf
 page: 19
 content:
@@ -69,6 +84,9 @@ page: 15
 content:
 requerimientos en las metodologias agiles caracteristicas de la historias de usuario (hu) resumen
 ##########################
+    
+    PREGUNTA:
+    dame las caracteristicas de los requerimientos en las metodologias tradicionales
 
 ---
 
