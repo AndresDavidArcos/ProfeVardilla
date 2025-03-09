@@ -83,8 +83,16 @@ def reconstruct_local_context(reranked_documents, chroma_collection):
             grouped_chunks[source_page_key] = {"page_content": [], "metadata": metadata}
         grouped_chunks[source_page_key]["page_content"].append(chunk)
     
-    final_documents = [Document(page_content=" ".join(data["page_content"]), metadata=data["metadata"]) 
-                       for data in grouped_chunks.values()]
+    source_page_documents = {}
+    for source_page_key, data in grouped_chunks.items():
+        merged_content = " ".join(data["page_content"])
+        source_page_documents[source_page_key] = Document(page_content=merged_content, metadata=data["metadata"])
+
+    final_documents = []
+    for doc in reranked_documents:
+        source_page_key = f"{doc.metadata['source']}_{doc.metadata['page']}"
+        if source_page_key in source_page_documents:
+            final_documents.append(source_page_documents[source_page_key])
     
     return final_documents
 
@@ -111,13 +119,14 @@ def generate_context(query_text):
     
     ensemble_results = ensemble_retriever.invoke(query_text)
     reranked_documents = rerank_documents(query_text, ensemble_results, "cross-encoder/ms-marco-MiniLM-L-12-v2", 10)
+    print("reranked_documents: ", reranked_documents, "\n---"*10)
     final_documents = reconstruct_local_context(reranked_documents, dense_vectorstore)
+    print("final_documents: ", final_documents, "\n---"*10)
+
     context = "\n\n".join(
     [
         f"### Documento {i+1} ###\n"
-        f"source: {doc.metadata.get('source', 'Desconocida')}\n"
-        f"page: {doc.metadata.get('page', 'N/A')}\n"
-        f"content:\n{doc.page_content}\n"
+        f"{doc.page_content}"
         f"##########################"
         for i, doc in enumerate(final_documents)
     ]
@@ -128,35 +137,21 @@ def generate_context(query_text):
 
 def query_rag(query_text):
     context, final_documents = generate_context(query_text)
-    PROMPT_TEMPLATE = """Utiliza exclusivamente el siguiente contexto para responder en español a la pregunta. No añadas información externa.  
-    Tu respuesta debe estar en formato JSON válido con la siguiente estructura, donde en respuesta vas a colocar tu respuesta a la pregunta en base al contexto dado,
-    y en documentos vas a colocar el source y page de los documentos que mas relevantes te fueron para elaborar tu respuesta, no incluyas documentos que no fueron relevantes para tu respuesta:
-    
-    {response}
-        
+    documents_dict = [doc.__dict__ for doc in final_documents]
+    print("documents_dict: ", documents_dict, "\n---"*10)    
+    PROMPT_TEMPLATE = """Utiliza el siguiente contexto para responder a la pregunta.
+         
     CONTEXTO:
     {context}
     
     PREGUNTA:
     {question}
     """
-
-    json_structure = {
-        "respuesta": "", 
-        "documentos": [
-            {"source": "", "page": ""}
-        ]
-    }
-    
-    json_string = json.dumps(json_structure, indent=4, ensure_ascii=False)
     
     prompt = PROMPT_TEMPLATE.format(
         context=context, 
         question=query_text,
-        response=json_string
     )
-
-    save_docs_to_file([prompt], filename="prompt_result.md")
     
     url = "https://api.awanllm.com/v1/chat/completions"
     headers = {
@@ -167,7 +162,7 @@ def query_rag(query_text):
     data = {
         "model": "Meta-Llama-3.1-8B-Instruct",  
         "messages": [
-            {"role": "system", "content": "Eres un asistente útil."},
+            {"role": "system", "content": "Eres un asistente académico especializado en la asignatura de Desarrollo de Software en una universidad. Respondes preguntas con base en material proporcionado por los profesores, asegurándote de que tus respuestas sean claras, detalladas, útiles para el aprendizaje y en español."},
             {"role": "user", "content": prompt}
         ],
         "repetition_penalty": 1.1,
@@ -183,13 +178,10 @@ def query_rag(query_text):
         response_json = response.json()
         
         if "choices" in response_json and len(response_json["choices"]) > 0:
-            response_text = response_json["choices"][0]["message"]["content"]
-            parsed_answer = json.loads(response_text)
-            answer = parsed_answer['respuesta']
-            relevant_documents = parsed_answer['documentos']
+            answer = response_json["choices"][0]["message"]["content"]  
         else:
-            response_text = "No se obtuvo respuesta válida."
+            answer = "No se obtuvo respuesta válida."
     except requests.exceptions.RequestException as e:
-        response_text = f"Error al conectar con AwanLLM: {e}"
-    
-    return answer, relevant_documents, final_documents
+        answer = f"Error al conectar con AwanLLM: {e}"
+
+    return answer, documents_dict
