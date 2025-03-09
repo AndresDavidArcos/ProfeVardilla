@@ -54,7 +54,6 @@ function App() {
             {
               id: Date.now(),
               text: data.answer || 'Lo siento, no tengo una respuesta para eso.',
-              relevant_documents: data.relevant_documents,
               documents: data.documents,
               sender: 'assistant',
               timestamp: new Date(),

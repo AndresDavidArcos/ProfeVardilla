@@ -1,74 +1,34 @@
 **Documento 1:**
 
 ### Documento 1 ###
-source: D:\Universidad\Noveno Semestre\trabajo de grado\profevardillabackend\qaAssistant\rag_pdf_data\Clase2-DS1-2022-II-NP_compressed.pdf
-page: 19
-content:
-requerimientos funcionales. requerimientos en las metodologias tradicionales
-##########################
+ejemplos de requerimientos funcionales en las metodologias tradicionales el sistema debe permitir crear un usuario del sistema. el sistema debe permitir registrar participantes a un evento. el sistema debe permitir registrar la venta de un articulo. el sistema debe permitir anular una nota debito. el sistema debe permitir a los usuarios contratista poder registrar sus pagos de certificacion al sistema de seguridad social junto al valor pagado por cada concepto como son: arl, pension y eps junto con el numero de la planilla que lo soporta. resumen##########################
 
 ### Documento 2 ###
-source: D:\Universidad\Noveno Semestre\trabajo de grado\profevardillabackend\qaAssistant\rag_pdf_data\Clase2-DS1-2022-II-NP_compressed.pdf
-page: 32
-content:
-proceso para especificar requerimientos especificacion del sistema determinacion de requerimientos documentacion obtencion validacion entrevistas con los usuarios talleres (lluvia de ideas) estudiar sistemas parecidos encuestas prototipos bpm comprobar las caracteristicas de los requerimientos srs tecnicas
-##########################
+requerimientos funcionales. los requisitos o requerimientos funcionales son declaraciones de los servicios que prestara el sistema, en la forma en que reaccionara a determinados insumos. generalmente, los requerimientos funcionales describen el comportamiento del sistema en condiciones especificas. en algunos casos, los requisitos funcionales de los sistemas tambien establecen explicitamente lo que el sistema no debe hacer. resumen##########################
 
 ### Documento 3 ###
-source: D:\Universidad\Noveno Semestre\trabajo de grado\profevardillabackend\qaAssistant\rag_pdf_data\Clase2-DS1-2022-II-NP_compressed.pdf
-page: 39
-content:
-requerimientos no funcionales requerimientos no funcionales en las metodologias tradicionales
-##########################
+requerimientos funcionales. los requisitos o requerimientos funcionales son declaraciones de los servicios que prestara el sistema, en la forma en que reaccionara a determinados insumos. generalmente, los requerimientos funcionales describen el comportamiento del sistema en condiciones especificas. en algunos casos, los requisitos funcionales de los sistemas tambien establecen explicitamente lo que el sistema no debe hacer.##########################
 
 ### Documento 4 ###
-source: D:\Universidad\Noveno Semestre\trabajo de grado\profevardillabackend\qaAssistant\rag_pdf_data\Clase2-DS1-2022-II-NP_compressed.pdf
-page: 43
-content:
-requerimientos funcionales. requerimientos en las metodologias agiles
-##########################
+clasificacion de los requerimientos. los requerimientos funcionales declaraciones de los servicios que debe proporcionar el sistema, la forma en que el sistema debe reaccionar a las entradas y la forma en que el sistema debe comportarse en situaciones particulares. requerimientos no funcionales limitaciones en los servicios o funciones ofrecidas por el sistema como de tiempo, limitaciones en el proceso de desarrollo, normas, tecnologia, etc resumen##########################
 
 ### Documento 5 ###
-source: D:\Universidad\Noveno Semestre\trabajo de grado\profevardillabackend\qaAssistant\rag_pdf_data\Clase2-DS1-2022-II-NP_compressed.pdf
-page: 47
-content:
-requerimientos en las metodologias agiles caracteristicas deseables de las historias de usuario (hu)
-##########################
+requerimientos en las metodologias agiles ejemplos de historias de usuario como estudiante deseo registrarme en un curso para matricularme en la universidad actor la tarea proposito plantilla: como <actor> deseo <tarea> para <proposito>##########################
 
 ### Documento 6 ###
-source: D:\Universidad\Noveno Semestre\trabajo de grado\profevardillabackend\qaAssistant\rag_pdf_data\Clase2-DS1-2022-II-NP_compressed.pdf
-page: 65
-content:
-requerimientos no funcionales requerimientos no funcionales en las metodologias agiles
-##########################
+requerimientos en las metodologias agiles ejemplos de historias de usuario 1. como operador deseo poder registrar un producto en el sistema para mantener actualizado el inventario de productos. 2. como vendedor, deseo registrar los productos y cantidades que me solicita un cliente para crear un pedido de venta.##########################
 
 ### Documento 7 ###
-source: D:\Universidad\Noveno Semestre\trabajo de grado\profevardillabackend\qaAssistant\rag_pdf_data\Clase3-DS1-2022-II-NP_compressed.pdf
-page: 8
-content:
-caracteristicas de los requerimientos en las metodologias tradicionales necesario: lo que pida un requisito debe ser necesario para el producto. correcto: si y solo si, cada requisito especificado es un requisito que el software debe cumplir. no ambiguo: el texto debe ser claro, preciso y tener una unica interpretacion posible . conciso: debe redactarse en un lenguaje comprensible por los participantes en lugar de uno de tipo tecnico y especializado, aunque aun asi debe referenciar los aspectos importantes consistente: ningun requisito debe entrar en conflicto con otro requisito diferente. asimismo, el lenguaje empleado entre los distintos requisitos debe ser consistente tambien. completo: los requisitos deben contener en si mismos toda la informacion necesaria, y no remitir a otras fuentes externas que los expliquen con mas detalle . alcanzable: un requisito debe ser un objetivo realista, posible de ser alcanzado con el dinero, el tiempo y los recursos disponibles. verificable: se debe poder verificar con absoluta certeza, si el requisito fue satisfecho o no. esta verificacion puede lograrse mediante inspeccion, analisis, demostracion o testeo. resumen
-##########################
+clasificacion de los requerimientos. requerimientos requeremientos funcionales requerimientos no funcionales rendimiento de calidad restricciones tecnologia##########################
 
 ### Documento 8 ###
-source: D:\Universidad\Noveno Semestre\trabajo de grado\profevardillabackend\qaAssistant\rag_pdf_data\Clase3-DS1-2022-II-NP_compressed.pdf
-page: 13
-content:
-requerimientos funcionales. requerimientos en las metodologias agiles resumen
-##########################
+requerimientos no funcionales especifican "que tan bien" y "como" debe comportarse un sistema imponen restricciones que tipicamente limitan los requerimientos funcionales tambien conocidos como "requisitos tecnicos", "atributos de calidad "o" requisitos de calidad de servicio "##########################
 
 ### Documento 9 ###
-source: D:\Universidad\Noveno Semestre\trabajo de grado\profevardillabackend\qaAssistant\rag_pdf_data\Clase3-DS1-2022-II-NP_compressed.pdf
-page: 14
-content:
-requerimientos en las metodologias agiles el desarrollo agil de software es un paradigma usado en las metodologias de desarrollo de software basado en procesos agiles. las metodologias agiles se concibieron como una alternativa a las practicas de desarrollo de software tradicional es una “sombrilla” para un conjunto de valores, principios y practicas el desarrollo agil es una forma diferente de gestionar equipos y proyectos de desarrollo de software las historias de usuario (hu) es el mecanismo usado para obtener las necesidades del usuario.
-##########################
+requerimientos funcionales. requerimientos en las metodologias tradicionales##########################
 
 ### Documento 10 ###
-source: D:\Universidad\Noveno Semestre\trabajo de grado\profevardillabackend\qaAssistant\rag_pdf_data\Clase3-DS1-2022-II-NP_compressed.pdf
-page: 15
-content:
-requerimientos en las metodologias agiles caracteristicas de la historias de usuario (hu) resumen
-##########################
+requerimientos no funcionales requerimientos no funcionales en las metodologias tradicionales##########################
 
 ---
 

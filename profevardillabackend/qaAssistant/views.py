@@ -11,7 +11,7 @@ def ask_question(request):
         return Response({"error": "La pregunta es requerida."}, status=status.HTTP_400_BAD_REQUEST)
     
     try:
-        answer, relevant_documents, final_documents = query_rag(question)
-        return Response({"answer": answer, "relevant_documents": relevant_documents, "documents": final_documents}, status=status.HTTP_200_OK)
+        answer, final_documents = query_rag(question)
+        return Response({"answer": answer, "documents": final_documents}, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({"error": f"Ocurrió un error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
