@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react';
-import { Send, User, Bot, LogOut, Menu, Mic, MicOff, Loader2 } from 'lucide-react';
+import { Send, User, Bot, LogOut, Menu, Mic, MicOff, Loader2, VolumeX } from 'lucide-react';
 import ChatMessage from './components/ChatMessage';
+import removeMarkdown from 'remove-markdown';
+import Uvardilla from './assets/Uvardilla';
 
-const GOOGLE_API_KEY = 'GOOGLE_API_KEY_REMOVED';
+const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
 function App() {
   const baseUrl = 'http://localhost:8000/'
@@ -18,13 +20,17 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMicOn, setIsMicOn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
-  const handleSend = async (text = inputText) => {
+  const handleSend = async (text = inputText, isAudioQuery = false) => {
     if (text.trim()) {
-      // Agregar mensaje del usuario
+      if (isSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsSpeaking(false);
+      }
       setMessages((prev) => [
         ...prev,
         {
@@ -46,19 +52,31 @@ function App() {
           },
           body: JSON.stringify({ question: text }),
         });
-        console.log("respuesa del servidor: ", response)
         const data = await response.json();
         if (response.ok) {
+          console.log("respuesta del servidor: ",data.answer)
+          const answerText = data.answer || 'Lo siento, no tengo una respuesta para eso.';
           setMessages((prev) => [
             ...prev,
             {
               id: Date.now(),
-              text: data.answer || 'Lo siento, no tengo una respuesta para eso.',
+              text: answerText,
               documents: data.documents,
               sender: 'assistant',
               timestamp: new Date(),
             },
           ]);
+          if (isAudioQuery) {
+            console.log("is audio query")
+            const plainText = removeMarkdown(answerText);
+            console.log("plaintext: ", plainText)
+            const utterance = new SpeechSynthesisUtterance(plainText);
+            utterance.lang = 'es-ES';
+            utterance.onstart = () => setIsSpeaking(true);
+            utterance.onend = () => setIsSpeaking(false);
+            window.speechSynthesis.speak(utterance);
+          }
+
         } else {
           console.error('Error en la respuesta del servidor:', data);
         }
@@ -151,7 +169,7 @@ function App() {
         const data = await response.json();
         if (data.results && data.results.length > 0) {
           const transcript = data.results[0].alternatives[0].transcript;
-          handleSend(transcript);
+          handleSend(transcript, true);
         } else {
           alert('No transcription results.');
         }
@@ -169,8 +187,8 @@ function App() {
       <header className="bg-white shadow-sm fixed top-0 w-full z-10">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Bot className="w-8 h-8 text-red-600" />
-            <h1 className="text-xl font-semibold text-gray-800">Profesor Vardilla</h1>
+          <Uvardilla className="w-8 h-8 text-red-600 scale-[1.2]" />
+          <h1 className="text-xl font-semibold text-gray-800">Profesor Vardilla</h1>
           </div>
 
           <div className="relative">
@@ -178,7 +196,7 @@ function App() {
               onClick={() => setMenuOpen(!menuOpen)}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
-              <Menu className="w-6 h-6 text-gray-600" />
+              <Menu className="w-6 h-6 text-red-600" />
             </button>
 
             {menuOpen && (
@@ -229,18 +247,28 @@ function App() {
               rows={1}
             />
             <button
+              onClick={() => handleSend()}
+              disabled={!inputText.trim()}
+              className="mb-1 p-3 rounded-xl bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              <Send className="w-5 h-5" />
+            </button>            
+            <button
               onClick={toggleMic}
               className="mb-1 p-3 rounded-xl bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isMicOn ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
             </button>
             <button
-              onClick={() => handleSend()}
-              disabled={!inputText.trim()}
-              className="mb-1 p-3 rounded-xl bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              <Send className="w-5 h-5" />
-            </button>
+            onClick={() => {
+              window.speechSynthesis.cancel();
+              setIsSpeaking(false);
+            }}
+            disabled={!isSpeaking}
+            className="mb-1 p-3 rounded-xl bg-red-600 text-white hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <VolumeX className="w-5 h-5" />
+          </button>            
           </div>
         </div>
       </div>

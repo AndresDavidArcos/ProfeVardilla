@@ -16,3 +16,4 @@ pymupdf
 tiktoken
 rank_bm25
 whitenoise
+python-dotenv

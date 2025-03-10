@@ -1,5 +1,7 @@
-import { FaBookOpen, FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+
 function ChatMessage({ message, pdfBaseUrl }) {
   const [showAllSources, setShowAllSources] = useState(false);
 
@@ -23,7 +25,9 @@ function ChatMessage({ message, pdfBaseUrl }) {
   return (
     <div className={`flex ${isAi ? 'justify-start' : 'justify-end'} mb-4 message-appear`}>
       <div className={`max-w-[70%] rounded-lg p-4 ${isAi ? 'bg-gray-100' : 'bg-[#CD1F32] text-white'}`}>
-        <p className="text-sm">{message.text}</p>
+      <div className="text-sm space-y-2">
+      <ReactMarkdown>{message.text}</ReactMarkdown>
+      </div>
         {isAi && sources.length > 0 && (
           <div className="mt-3">
             <p className="text-xs font-medium text-gray-600 mb-2">Fuentes:</p>

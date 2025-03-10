@@ -13,6 +13,7 @@ from sentence_transformers import CrossEncoder
 CHROMA_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chroma")
 CHUNKS_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chunks")
 DEBUGGINGFILES = os.path.join(settings.BASE_DIR, "qaAssistant", "debuggingfiles")
+AWANLLM_API_TOKEN = os.getenv('AWANLLM_API_TOKEN')
 
 PROMPT_TEMPLATE = """
 Utiliza **solamente** el siguiente contexto para responder en español a la pregunta. No añadas información externa.
@@ -156,7 +157,7 @@ def query_rag(query_text):
     url = "https://api.awanllm.com/v1/chat/completions"
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': "Bearer "
+        'Authorization': f"Bearer {AWANLLM_API_TOKEN}"
     }
     
     data = {
