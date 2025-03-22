@@ -1,8 +1,8 @@
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-
-function ChatMessage({ message, pdfBaseUrl }) {
+ 
+function ChatMessage({ message, pdfBaseUrl}) {
   const [showAllSources, setShowAllSources] = useState(false);
 
   const formattedTimestamp = new Date(message.timestamp).toLocaleTimeString([], {
@@ -20,13 +20,26 @@ function ChatMessage({ message, pdfBaseUrl }) {
       page: parseInt(document.metadata.page)+1 || 'N/A',
     };
   });
-  const displayedSources = showAllSources ? sources : sources.slice(0, 3);
+  const displayedSources = showAllSources ? sources : sources.slice(0, 4);
 
   return (
     <div className={`flex ${isAi ? 'justify-start' : 'justify-end'} mb-4 message-appear`}>
       <div className={`max-w-[70%] rounded-lg p-4 ${isAi ? 'bg-gray-100' : 'bg-[#CD1F32] text-white'}`}>
       <div className="text-sm space-y-2">
       <ReactMarkdown>{message.text}</ReactMarkdown>
+      {message.options && (
+          <div className="mt-3 space-y-2">
+            {message.options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => message.onOptionSelect(option)}
+                className="block w-full text-left px-4 py-2 rounded-lg bg-white hover:bg-gray-50 text-gray-700 text-sm transition-colors"
+              >
+                {option.text || option}
+              </button>
+            ))}
+          </div>
+        )}      
       </div>
         {isAi && sources.length > 0 && (
           <div className="mt-3">

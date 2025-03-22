@@ -3,20 +3,54 @@ import { Send, User, Bot, LogOut, Menu, Mic, MicOff, Loader2, VolumeX } from 'lu
 import ChatMessage from './components/ChatMessage';
 import removeMarkdown from 'remove-markdown';
 import Uvardilla from './assets/Uvardilla';
+import LearningIndicators from './components/LearningIndicators';
+import { indicators } from './constants/indicators';
 
 const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
 function App() {
   const baseUrl = 'http://localhost:8000/'
+
+  const handleOptionSelect = (option) => {
+    setMessages(prev => [...prev, { text: option.text, sender: 'user', timestamp: new Date(), id: Date.now() }]);
+
+    if (option.value === 'practice') {
+      setShowLearningIndicators(true);
+      setMessages(prev => [...prev, {
+        text: "¡Muy bien! Selecciona los indicadores de logros en los que quieres ser evaluado.",
+        sender: 'assistant',
+        showIndicators: true
+      }]);
+    } else {
+      setMessages(prev => [...prev, {
+        text: "Entiendo que tienes dudas. ¿Sobre qué tema te gustaría aprender más?",
+        sender: 'assistant',
+        timestamp: new Date(), id: Date.now()
+      }]);
+    }
+    setSelectedPath(option.value);
+  };
+
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "¡Hola! ¿En qué puedo ayudarte hoy?",
+      text: "¡Hola! ¿Listo para practicar? ¿Quieres demostrar tus conocimientos o tienes dudas sobre algún tema?",
       sender: 'assistant',
+      options: [
+        { text: "Demostrar conocimientos", value: "practice" },
+        { text: "Tengo dudas", value: "doubts" }
+      ],  
+      onOptionSelect: handleOptionSelect,
       timestamp: new Date(),
     },
   ]);
   const [inputText, setInputText] = useState('');
+  const [showLearningIndicators, setShowLearningIndicators] = useState(false);
+  const [selectedPath, setSelectedPath] = useState(null);
+  const [questionsPerIndicator, setQuestionsPerIndicator] = useState(3);  
+  const [evaluationQueue, setEvaluationQueue] = useState([]);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [evaluationResults, setEvaluationResults] = useState({});  
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMicOn, setIsMicOn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,40 +79,85 @@ function App() {
       setIsLoading(true);
 
       try {
-        const response = await fetch(baseUrl+'assistant/ask/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ question: text }),
-        });
-        const data = await response.json();
-        if (response.ok) {
-          console.log("respuesta del servidor: ",data.answer)
-          const answerText = data.answer || 'Lo siento, no tengo una respuesta para eso.';
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: Date.now(),
-              text: answerText,
-              documents: data.documents,
-              sender: 'assistant',
-              timestamp: new Date(),
+        if (selectedPath === 'doubts') {
+          const response = await fetch(baseUrl+'assistant/ask/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
             },
-          ]);
-          if (isAudioQuery) {
-            console.log("is audio query")
-            const plainText = removeMarkdown(answerText);
-            console.log("plaintext: ", plainText)
-            const utterance = new SpeechSynthesisUtterance(plainText);
-            utterance.lang = 'es-ES';
-            utterance.onstart = () => setIsSpeaking(true);
-            utterance.onend = () => setIsSpeaking(false);
-            window.speechSynthesis.speak(utterance);
+            body: JSON.stringify({ question: text }),
+          });
+          const data = await response.json();
+          if (response.ok) {
+            console.log("respuesta del servidor: ",data.answer)
+            const answerText = data.answer || 'Lo siento, no tengo una respuesta para eso.';
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: Date.now(),
+                text: answerText,
+                documents: data.documents,
+                sender: 'assistant',
+                timestamp: new Date(),
+              },
+            ]);
+            if (isAudioQuery) {
+              console.log("is audio query")
+              const plainText = removeMarkdown(answerText);
+              console.log("plaintext: ", plainText)
+              const utterance = new SpeechSynthesisUtterance(plainText);
+              utterance.lang = 'es-ES';
+              utterance.onstart = () => setIsSpeaking(true);
+              utterance.onend = () => setIsSpeaking(false);
+              window.speechSynthesis.speak(utterance);
+            }
+          }else {
+            console.error('Error en la respuesta del servidor:', data);
           }
+        }else if(selectedPath === 'practice'){
+          if (currentQuestion) {
+            const response = await fetch(baseUrl + 'assistant/answer/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                question: currentQuestion.questionText,
+                answer: text,
+              }),
+            });
+            const data = await response.json();
+            setEvaluationResults((prev) => ({
+              ...prev,
+              [currentQuestion.indicatorId]: [
+                ...(prev[currentQuestion.indicatorId] || []),
+                {
+                  passStatus: data.passStatus,
+                  question: currentQuestion.questionText,
+                  answer: text,
+                  correction: data.correction,
+                  documents: data.documents,
+                },
+              ],
+            }));
 
-        } else {
-          console.error('Error en la respuesta del servidor:', data);
+            if (data.correction) {
+              setMessages((prev) => [
+                ...prev,
+                {
+                  id: Date.now(),
+                  text: data.correction, 
+                  sender: 'assistant',
+                  timestamp: new Date(),
+                  documents: data.documents,
+                },
+              ]);
+            }            
+            processNextQuestion();
+
+          }else{
+            console.log("modo practica sin preguntas activas")
+          }
         }
       } catch (error) {
         console.error('Error al hacer la solicitud a la API:', error);
@@ -95,6 +174,94 @@ function App() {
         setIsLoading(false);
       }
     }
+  };
+
+  const handleStartEvaluation = async (selectedIndicators) => {
+    setShowLearningIndicators(false);
+    
+    setMessages(prev => [...prev, {
+      text: `Has seleccionado ${selectedIndicators.length} indicadores. Se generarán ${questionsPerIndicator} preguntas por cada uno.`,
+      sender: 'assistant',
+      id: Date.now(),
+      timestamp: new Date(),
+    }]);
+
+    const selectedIndicatorDetails = selectedIndicators.reduce((acc, id) => {
+      for (const category of Object.values(indicators)) {
+        if (category.items[id]) {
+          acc[id] = category.items[id];
+          break;
+        }
+      }
+      return acc;
+    }, {});
+    
+    const queue = [];
+    for (const [id, indicator] of Object.entries(selectedIndicatorDetails)) {
+      try {
+        const response = await fetch(baseUrl + 'assistant/question/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            indicator,
+            questionsPerIndicator 
+          }),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok && data.questions) {
+          data.questions.forEach((question) => {
+            queue.push({
+              indicatorId: id,
+              indicator,
+              questionText: question,
+            });
+          });
+        } else {
+          console.error('Error al obtener preguntas para el indicador:', id, data);
+        }
+      } catch (error) {
+        console.error('Error al hacer la solicitud a la API:', error);
+      }
+    }
+  
+    setEvaluationQueue(queue);
+    setEvaluationResults({});
+    processNextQuestion();
+  };
+
+  const processNextQuestion = async () => {
+    if (evaluationQueue.length === 0) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          text: '¡Evaluación completada! Aquí están tus resultados:',
+          sender: 'assistant',
+          evaluationResults,
+          id: Date.now(),
+          timestamp: new Date(),
+        },
+      ]);
+      return;
+    }
+  
+    const nextQuestion = evaluationQueue[0];
+  
+    setMessages((prev) => [
+      ...prev,
+      {
+        text: nextQuestion.questionText,
+        sender: 'assistant',
+        isQuestion: true,
+        id: Date.now(),
+        timestamp: new Date(),
+        currentQuestion: nextQuestion,
+      },
+    ]);
+  
+    setCurrentQuestion(nextQuestion);
+    setEvaluationQueue((prev) => prev.slice(1));
   };
 
   const toggleMic = () => {
@@ -220,9 +387,21 @@ function App() {
       {/* Chat Container */}
       <div className="max-w-4xl mx-auto pt-16 pb-24 px-4">
         <div className="space-y-4 py-4">
-          {messages.map((message) => (
-            <ChatMessage key={message.id} message={message} pdfBaseUrl={baseUrl+'static/'}/>
+          {messages.map((message, index) => (
+            <div key={index}>
+              <ChatMessage key={message.id} message={message} pdfBaseUrl={baseUrl+'static/'}/>
+              {message.showIndicators && showLearningIndicators && (
+                <div className="mt-4">
+                  <LearningIndicators
+                    onStartEvaluation={handleStartEvaluation}
+                    questionsPerIndicator={questionsPerIndicator}
+                    setQuestionsPerIndicator={setQuestionsPerIndicator}
+                  />
+                </div>
+              )}
+           </div>
           ))}
+
           {isLoading && (
             <div className="flex justify-start">
               <div className="flex items-center space-x-2">

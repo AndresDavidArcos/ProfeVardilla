@@ -3,7 +3,6 @@ import unicodedata
 import re
 import os
 from django.core.management.base import BaseCommand
-from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 from langchain.document_loaders import PyMuPDFLoader
@@ -13,21 +12,9 @@ from django.conf import settings
 import tiktoken
 
 class Command(BaseCommand):
-    help = 'Carga archivos y los agrega a Chroma usando el modelo Qwen. Puede usar marker o pymupdf.'
-
-    def add_arguments(self, parser):
-        parser.add_argument(
-            'method',
-            type=str,
-            choices=['marker', 'pymupdf'],
-            default='pymupdf',
-            nargs='?',
-            help='Método de carga: marker o pymupdf (por defecto: pymupdf)'
-        )
+    help = 'Carga archivos con Pymupdf y los agrega a Chroma usando el modelo Qwen.'
 
     def handle(self, *args, **options):
-        method = options['method']
-        MD_FILE_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_markdown_data", "univalle_desarrolloSoftware_texto.md")
         PDF_DIR_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_pdf_data")
         CHROMA_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chroma")
         DEBUGGINGFILES = os.path.join(settings.BASE_DIR, "qaAssistant", "debuggingfiles")
@@ -53,12 +40,7 @@ class Command(BaseCommand):
             text = re.sub(r'\s+', ' ', text).strip()
             return text
 
-
-        def load_document_marker(file_path: str) -> list[Document]:
-            loader = TextLoader(file_path, encoding="utf8")
-            return loader.load()
-
-        def load_documents_pymupdf(directory: str) -> list[Document]:
+        def load_documents(directory: str) -> list[Document]:
             documents = []
             for filename in os.listdir(directory):
                 if filename.endswith(".pdf"):
@@ -159,15 +141,9 @@ class Command(BaseCommand):
             documents, metadatas, ids = process_chunks(chunks)
 
             collection.add(documents=documents, metadatas=metadatas, ids=ids)
-
-            save_chunks_to_file(documents, metadatas, ids, f'chunks_{method}.json', False)
-            save_chunks_to_file(documents, metadatas, ids, f'chunks_{method}.md', True)
+            save_chunks_to_file(documents, metadatas, ids, f'chunks_pymupdf.md', True)
             self.stdout.write(self.style.SUCCESS(f"{len(chunks)} documentos agregados a Chroma."))
 
-        if method == "marker":
-            documents = load_document_marker(MD_FILE_PATH)
-        else:  # pymupdf
-            documents = load_documents_pymupdf(PDF_DIR_PATH)
-        
+        documents = load_documents(PDF_DIR_PATH)      
         chunks = split_documents(documents)
         add_to_chroma(chunks)

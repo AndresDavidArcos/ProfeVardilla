@@ -41,7 +41,7 @@ class Command(BaseCommand):
         query_text = options["query_text"]
         client = chromadb.PersistentClient(path=CHROMA_PATH)
         embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="jinaai/jina-embeddings-v2-base-es"
+            model_name="Alibaba-NLP/gte-Qwen2-1.5B-instruct"
         )
         collection = client.get_collection(name="desarrollo_software", embedding_function=embedding_function)
         

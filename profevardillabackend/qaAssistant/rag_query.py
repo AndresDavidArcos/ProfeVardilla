@@ -9,11 +9,11 @@ from langchain_community.retrievers import BM25Retriever
 from langchain.retrievers import  EnsembleRetriever
 from langchain.schema import Document
 from sentence_transformers import CrossEncoder
+from groq import Groq
 
 CHROMA_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chroma")
 CHUNKS_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chunks")
 DEBUGGINGFILES = os.path.join(settings.BASE_DIR, "qaAssistant", "debuggingfiles")
-AWANLLM_API_TOKEN = os.getenv('AWANLLM_API_TOKEN')
 
 PROMPT_TEMPLATE = """
 Utiliza **solamente** el siguiente contexto para responder en español a la pregunta. No añadas información externa.
@@ -107,10 +107,9 @@ def generate_context(query_text):
         embedding_function=embeddingFunction
     )
     dense_retriever = dense_vectorstore.as_retriever(search_kwargs={"k": 10})
-    
-    bm25_corpus_file = os.path.join(CHUNKS_PATH, "chunks_pymupdf.json")
-    bm25_docs = load_bm25_corpus(bm25_corpus_file)
-    bm25_retriever = BM25Retriever.from_documents(bm25_docs)
+    retrieved_data = dense_vectorstore._collection.get()
+    documents = [Document(page_content=doc, metadata=meta) for doc, meta in zip(retrieved_data['documents'], retrieved_data['metadatas'])]
+    bm25_retriever = BM25Retriever.from_documents(documents)
     bm25_retriever.k = 10
     
     ensemble_retriever = EnsembleRetriever(
@@ -120,9 +119,7 @@ def generate_context(query_text):
     
     ensemble_results = ensemble_retriever.invoke(query_text)
     reranked_documents = rerank_documents(query_text, ensemble_results, "cross-encoder/ms-marco-MiniLM-L-12-v2", 10)
-    print("reranked_documents: ", reranked_documents, "\n---"*10)
     final_documents = reconstruct_local_context(reranked_documents, dense_vectorstore)
-    print("final_documents: ", final_documents, "\n---"*10)
 
     context = "\n\n".join(
     [
@@ -139,7 +136,6 @@ def generate_context(query_text):
 def query_rag(query_text):
     context, final_documents = generate_context(query_text)
     documents_dict = [doc.__dict__ for doc in final_documents]
-    print("documents_dict: ", documents_dict, "\n---"*10)    
     PROMPT_TEMPLATE = """Utiliza el siguiente contexto para responder a la pregunta.
          
     CONTEXTO:
@@ -153,36 +149,31 @@ def query_rag(query_text):
         context=context, 
         question=query_text,
     )
-    
-    url = "https://api.awanllm.com/v1/chat/completions"
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f"Bearer {AWANLLM_API_TOKEN}"
-    }
-    
-    data = {
-        "model": "Meta-Llama-3.1-8B-Instruct",  
-        "messages": [
-            {"role": "system", "content": "Eres un asistente académico especializado en la asignatura de Desarrollo de Software en una universidad. Respondes preguntas con base en material proporcionado por los profesores, asegurándote de que tus respuestas sean claras, detalladas, útiles para el aprendizaje y en español."},
-            {"role": "user", "content": prompt}
-        ],
-        "repetition_penalty": 1.1,
-        "temperature": 0.7,
-        "top_p": 0.9,
-        "top_k": 40,
-        "max_tokens": 10000,
-        "stream": False
-    }
+
     try:
-        response = requests.post(url, headers=headers, json=data, timeout=600)
-        response.raise_for_status()
-        response_json = response.json()
-        
-        if "choices" in response_json and len(response_json["choices"]) > 0:
-            answer = response_json["choices"][0]["message"]["content"]  
+        groq_client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
+        response = groq_client.chat.completions.create(
+        messages=[
+            {
+                'role': 'system',
+                'content': (
+                    "Eres un asistente académico especializado en la asignatura de Desarrollo de Software en una universidad. "
+                    "Respondes preguntas con base en material proporcionado por los profesores, asegurándote de que tus respuestas "
+                    "sean claras, detalladas, útiles para el aprendizaje y en español."
+                )
+            },
+            {
+                'role': 'user',
+                'content': prompt
+            }
+        ],
+        model='llama-3.1-8b-instant',
+        )
+        if response.choices and len(response.choices) > 0:
+            answer = response.choices[0].message.content
         else:
             answer = "No se obtuvo respuesta válida."
     except requests.exceptions.RequestException as e:
-        answer = f"Error al conectar con AwanLLM: {e}"
+        answer = f"Error al conectar con Groq: {e}"
 
     return answer, documents_dict
