@@ -22,7 +22,7 @@ def ask_question(request):
 
 
 @api_view(['POST'])
-def gen_question(request):
+def generate_question_view(request):
     indicator = request.data.get('indicator')
     questionsPerIndicator = request.data.get('questionsPerIndicator')
 
@@ -45,7 +45,7 @@ def gen_question(request):
 @api_view(['POST'])
 def process_answer_view(request):
     question = request.data.get('question')
-    student_answer = request.data.get('student_answer')
+    student_answer = request.data.get('answer')
 
     if not question:
         return Response({"error": "La pregunta es requerida."}, status=status.HTTP_400_BAD_REQUEST)

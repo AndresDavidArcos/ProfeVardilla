@@ -167,7 +167,7 @@ def query_rag(query_text):
                 'content': prompt
             }
         ],
-        model='llama-3.1-8b-instant',
+        model='llama3-70b-8192',
         )
         if response.choices and len(response.choices) > 0:
             answer = response.choices[0].message.content

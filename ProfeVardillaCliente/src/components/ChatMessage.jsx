@@ -1,4 +1,4 @@
-import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { FaChevronUp, FaChevronDown, FaLightbulb, FaStar, FaBookmark, FaExclamationTriangle } from 'react-icons/fa';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
  
@@ -23,9 +23,55 @@ function ChatMessage({ message, pdfBaseUrl}) {
   const displayedSources = showAllSources ? sources : sources.slice(0, 4);
 
   return (
-    <div className={`flex ${isAi ? 'justify-start' : 'justify-end'} mb-4 message-appear`}>
-      <div className={`max-w-[70%] rounded-lg p-4 ${isAi ? 'bg-gray-100' : 'bg-[#CD1F32] text-white'}`}>
-      <div className="text-sm space-y-2">
+    <div className={`flex ${isAi ? 'justify-start' : 'justify-end'} mb-4 message-appear relative mt-6`}>
+      {message.evaluation && (
+        <div className="flex gap-2 absolute left-4 -top-3">
+          {message.evaluation.isQuestion ? (
+            <div className="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200 flex items-center gap-1">
+              <FaBookmark className="w-3 h-3" />
+              <span>
+                {`Pregunta ${message.evaluation.questionNumber || ''}${
+                  message.evaluation.indicatorId ? ` • ${message.evaluation.indicatorId}` : ''
+                }${message.evaluation.indicatorValue ? ` • ${message.evaluation.indicatorValue}` : ''}`}
+              </span>
+            </div>
+          ) : (
+            <div
+              className={`px-3 py-1 rounded-full text-xs font-medium ${
+                message.evaluation.passStatus
+                  ? 'bg-green-100 text-green-700 border border-green-200'
+                  : 'bg-red-100 text-red-700 border border-red-200'
+              }`}
+            >
+              {message.evaluation.passStatus ? (
+                <div className="flex items-center gap-1">
+                  <FaStar className="w-3 h-3" />
+                  <span>Correcto</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1">
+                  <FaExclamationTriangle  className="w-3 h-3" />
+                  <span>Incorrecto</span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+    
+    <div className={`max-w-[70%] rounded-lg p-4 ${
+      isAi
+        ? `bg-gray-100 ${
+            message.evaluation && !message.evaluation.isQuestion
+              ? message.evaluation.passStatus
+                ? 'border-2 border-green-200'
+                : 'border-2 border-red-200'
+              : ''
+          }`
+        : 'bg-[#CD1F32] text-white'
+    }`}>
+    <div className="text-sm space-y-2">
       <ReactMarkdown>{message.text}</ReactMarkdown>
       {message.options && (
           <div className="mt-3 space-y-2">

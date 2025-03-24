@@ -1,15 +1,16 @@
-import { useState, useRef } from 'react';
-import { Send, User, Bot, LogOut, Menu, Mic, MicOff, Loader2, VolumeX } from 'lucide-react';
+import { useState, useRef, useEffect} from 'react';
+import { Send, User, LogOut, Menu, Mic, MicOff, Loader2, VolumeX } from 'lucide-react';
 import ChatMessage from './components/ChatMessage';
 import removeMarkdown from 'remove-markdown';
 import Uvardilla from './assets/Uvardilla';
 import LearningIndicators from './components/LearningIndicators';
 import { indicators } from './constants/indicators';
 
+
 const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
 function App() {
-  const baseUrl = 'http://localhost:8000/'
+  const baseUrl = 'http://localhost:8000/'  
 
   const handleOptionSelect = (option) => {
     setMessages(prev => [...prev, { text: option.text, sender: 'user', timestamp: new Date(), id: Date.now() }]);
@@ -19,6 +20,7 @@ function App() {
       setMessages(prev => [...prev, {
         text: "¡Muy bien! Selecciona los indicadores de logros en los que quieres ser evaluado.",
         sender: 'assistant',
+        timestamp: new Date(), id: Date.now(),
         showIndicators: true
       }]);
     } else {
@@ -58,6 +60,12 @@ function App() {
 
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
+
+  useEffect(() => {
+    if (evaluationQueue.length > 0) {
+      processNextQuestion();
+    }
+  }, [evaluationQueue]);  
 
   const handleSend = async (text = inputText, isAudioQuery = false) => {
     if (text.trim()) {
@@ -141,19 +149,22 @@ function App() {
               ],
             }));
 
-            if (data.correction) {
-              setMessages((prev) => [
-                ...prev,
-                {
-                  id: Date.now(),
-                  text: data.correction, 
-                  sender: 'assistant',
-                  timestamp: new Date(),
-                  documents: data.documents,
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: Date.now(),
+                text: data.correction, 
+                evaluation: {
+                  passStatus: data.passStatus,
+                  question: currentQuestion.questionText
                 },
-              ]);
-            }            
-            processNextQuestion();
+                sender: 'assistant',
+                timestamp: new Date(),
+                documents: data.documents,
+              },
+            ]);
+                     
+            setEvaluationQueue((prev) => prev.slice(1));
 
           }else{
             console.log("modo practica sin preguntas activas")
@@ -178,13 +189,7 @@ function App() {
 
   const handleStartEvaluation = async (selectedIndicators) => {
     setShowLearningIndicators(false);
-    
-    setMessages(prev => [...prev, {
-      text: `Has seleccionado ${selectedIndicators.length} indicadores. Se generarán ${questionsPerIndicator} preguntas por cada uno.`,
-      sender: 'assistant',
-      id: Date.now(),
-      timestamp: new Date(),
-    }]);
+    setMessages(prev => prev.filter(msg => !msg.showIndicators));
 
     const selectedIndicatorDetails = selectedIndicators.reduce((acc, id) => {
       for (const category of Object.values(indicators)) {
@@ -195,6 +200,19 @@ function App() {
       }
       return acc;
     }, {});
+
+    const indicatorsList = Object.entries(selectedIndicatorDetails)
+      .map(([id, indicator]) => `\n• **${id}**: ${indicator}.`)
+      .join('\n');
+
+    const totalQuestions = selectedIndicators.length * questionsPerIndicator;    
+    setMessages(prev => [...prev, {
+      text: `**Has seleccionado los siguientes indicadores de logro:**\n${indicatorsList}\n\nTendrás ${totalQuestions} preguntas (${questionsPerIndicator} por cada indicador). ¡Buena suerte!`,
+      sender: 'assistant',
+      id: Date.now(),
+      timestamp: new Date(),
+    }]);
+
     
     const queue = [];
     for (const [id, indicator] of Object.entries(selectedIndicatorDetails)) {
@@ -209,13 +227,15 @@ function App() {
         });
   
         const data = await response.json();
+        console.log("questions generated for ", indicator, "\n\n\n",data)
   
         if (response.ok && data.questions) {
-          data.questions.forEach((question) => {
+          data.questions.forEach((question, questionNumber) => {
             queue.push({
               indicatorId: id,
               indicator,
               questionText: question,
+              questionNumber: questionNumber+1
             });
           });
         } else {
@@ -225,14 +245,15 @@ function App() {
         console.error('Error al hacer la solicitud a la API:', error);
       }
     }
-  
-    setEvaluationQueue(queue);
+    console.log("questions queue: ", queue)
     setEvaluationResults({});
-    processNextQuestion();
+    setEvaluationQueue(queue);
   };
 
   const processNextQuestion = async () => {
+    console.log("proceesnextquestion", evaluationQueue)
     if (evaluationQueue.length === 0) {
+      console.log("evaluationque length 0")
       setMessages((prev) => [
         ...prev,
         {
@@ -247,13 +268,18 @@ function App() {
     }
   
     const nextQuestion = evaluationQueue[0];
-  
+    console.log("current question", nextQuestion)
     setMessages((prev) => [
       ...prev,
       {
         text: nextQuestion.questionText,
         sender: 'assistant',
-        isQuestion: true,
+        evaluation: {
+          isQuestion: true,
+          questionNumber: nextQuestion.questionNumber,
+          indicatorId: nextQuestion.indicatorId,
+          indivatorValue:  nextQuestion.indivator,
+        },
         id: Date.now(),
         timestamp: new Date(),
         currentQuestion: nextQuestion,
@@ -261,7 +287,6 @@ function App() {
     ]);
   
     setCurrentQuestion(nextQuestion);
-    setEvaluationQueue((prev) => prev.slice(1));
   };
 
   const toggleMic = () => {
