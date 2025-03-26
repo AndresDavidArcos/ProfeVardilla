@@ -1,10 +1,16 @@
 import { useState, useRef, useEffect} from 'react';
-import { Send, User, LogOut, Menu, Mic, MicOff, Loader2, VolumeX } from 'lucide-react';
+import { Send, LogOut, Mic, MicOff, Loader2, VolumeX } from 'lucide-react';
 import ChatMessage from './components/ChatMessage';
 import removeMarkdown from 'remove-markdown';
 import Uvardilla from './assets/Uvardilla';
 import LearningIndicators from './components/LearningIndicators';
 import { indicators } from './constants/indicators';
+import Sidebar from './components/Sidebar';
+import { FaBars, FaTimes } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
+import { loginWithGoogle, logoutUser, getUser } from './services/auth'
+import { saveEvaluationResults, createChatHistory, updateChatHistory } from './services/database';
+import { fakerES as faker } from '@faker-js/faker';
 
 
 const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -12,9 +18,11 @@ const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 function App() {
   const baseUrl = 'http://localhost:8000/'  
 
-  const handleOptionSelect = (option) => {
+  const handleOptionSelect = async (option) => {
     setMessages(prev => [...prev, { text: option.text, sender: 'user', timestamp: new Date(), id: Date.now() }]);
-
+    const chatId = await createChatHistory(option.value, `${faker.animal.type()} ${faker.word.adjective()}`);
+    console.log("created history with id: ", chatId);
+    setCurrentChatId(chatId);
     if (option.value === 'practice') {
       setShowLearningIndicators(true);
       setMessages(prev => [...prev, {
@@ -50,22 +58,65 @@ function App() {
   const [showLearningIndicators, setShowLearningIndicators] = useState(false);
   const [selectedPath, setSelectedPath] = useState(null);
   const [questionsPerIndicator, setQuestionsPerIndicator] = useState(3);  
-  const [evaluationQueue, setEvaluationQueue] = useState([]);
+  const [evaluationQueue, setEvaluationQueue] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [evaluationResults, setEvaluationResults] = useState({});  
-  const [menuOpen, setMenuOpen] = useState(false);
   const [isMicOn, setIsMicOn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [chatFilter, setChatFilter] = useState('all');
+  const [evaluationEnded, setEvaluationEnded] = useState(false);
+  const [currentChatId, setCurrentChatId] = useState(null);
+  const [user, setUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
   useEffect(() => {
-    if (evaluationQueue.length > 0) {
+    if (evaluationQueue && !evaluationEnded) {
       processNextQuestion();
     }
-  }, [evaluationQueue]);  
+
+  }, [evaluationQueue]);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const userData = await getUser();
+        setUser(userData);
+      } catch (error) {
+        setUser(null);
+      } finally {
+        setAuthLoading(false);
+      }
+    };
+  
+    checkUser();
+  }, []);
+
+  useEffect(() => {
+    if (currentChatId && messages.length > 0) {
+      updateChatHistory(currentChatId, messages)
+    }
+  }, [messages]);
+
+  const handleLogin = async () => {
+    loginWithGoogle();
+    const userData = await getUser();
+    setUser(userData);
+  }
+
+  const handleLogout = async () => {
+    await logoutUser();
+    setUser(null);
+    setIsMenuOpen(false);
+  };  
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleSend = async (text = inputText, isAudioQuery = false) => {
     if (text.trim()) {
@@ -144,7 +195,6 @@ function App() {
                   question: currentQuestion.questionText,
                   answer: text,
                   correction: data.correction,
-                  documents: data.documents,
                 },
               ],
             }));
@@ -252,18 +302,41 @@ function App() {
 
   const processNextQuestion = async () => {
     console.log("proceesnextquestion", evaluationQueue)
+
     if (evaluationQueue.length === 0) {
-      console.log("evaluationque length 0")
+      let totalCorrect = 0;
+      let totalIncorrect = 0;
+      let resultsMarkdown = "¡Evaluación completada! Aquí están tus resultados:\n\n";
+    
+      resultsMarkdown += Object.entries(evaluationResults)
+        .map(([indicatorId, questions]) => {
+          const correct = questions.filter(q => q.passStatus).length;
+          const incorrect = questions.length - correct;
+          
+          totalCorrect += correct;
+          totalIncorrect += incorrect;
+    
+          return `**Indicador ${indicatorId}:** ${correct}/${correct+incorrect}\n`;
+          })
+          .join('\n');
+    
+      resultsMarkdown +=  `\n## Resultado Final\n🎯 Total Correctas: ${totalCorrect}
+      \n⚠️ Total Incorrectas: ${totalIncorrect}  
+      \n📊 Porcentaje: ${Math.round((totalCorrect / (totalCorrect + totalIncorrect)) * 100)}%  
+      🔢 ${totalCorrect}/${totalCorrect + totalIncorrect} preguntas correctas`;
+    
       setMessages((prev) => [
         ...prev,
         {
-          text: '¡Evaluación completada! Aquí están tus resultados:',
+          text: resultsMarkdown,
           sender: 'assistant',
-          evaluationResults,
           id: Date.now(),
           timestamp: new Date(),
         },
       ]);
+
+      saveEvaluationResults(evaluationResults, faker.animal.type()+faker.word.adjective())
+      setEvaluationEnded(true);
       return;
     }
   
@@ -374,7 +447,20 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 relative">
+      {/* Sidebar Toggle Button */}
+      <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className="fixed top-4 left-4 z-30 p-2 rounded-lg bg-white shadow-md hover:bg-gray-50 transition-colors"
+      >
+        {isSidebarOpen ? <FaTimes /> : <FaBars />}
+      </button>      
+      {/* <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+        chatFilter={chatFilter}
+        setChatFilter={setChatFilter}
+      />       */}
       {/* Header */}
       <header className="bg-white shadow-sm fixed top-0 w-full z-10">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -384,28 +470,50 @@ function App() {
           </div>
 
           <div className="relative">
+          {authLoading ? (
+            <div className="flex items-center gap-2">
+              {/* Skeleton para el botón de login */}
+              <div className="h-[42px] w-[178px] bg-gray-200 rounded-md animate-pulse" />
+            </div>
+          ) : !user ? (
+            // Botón de login cuando no hay usuario
             <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              onClick={handleLogin}
+              className="w-full flex items-center justify-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md"
             >
-              <Menu className="w-6 h-6 text-red-600" />
+              <FcGoogle className="h-5 w-5 bg-white rounded-full" />
+              <span>Iniciar sesión</span>
             </button>
-
-            {menuOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 border border-gray-100">
-                <div className="px-4 py-2 border-b border-gray-100">
-                  <div className="flex items-center space-x-2">
-                    <User className="w-5 h-5 text-gray-500" />
-                    <span className="text-sm font-medium text-gray-700">John Doe</span>
-                  </div>
-                </div>
-                <button className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center space-x-2">
-                  <LogOut className="w-4 h-4" />
-                  <span>Sign Out</span>
-                </button>
+          ) : (
+            // Perfil de usuario cuando está autenticado
+            <div className="relative">
+              <div
+                onClick={toggleMenu}
+                className="flex items-center gap-2 cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <img
+                  src={user.prefs?.photoURL || `https://ui-avatars.com/api/?name=${user.name}&background=ff0000&color=fff`}
+                  alt="Perfil de usuario"
+                  className="w-8 h-8 rounded-full"
+                />
+                <span className="font-medium">{user.name}</span>
               </div>
-            )}
-          </div>
+
+              {/* Menú desplegable */}
+              {isMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    <LogOut className="w-4 h-4 mr-2 text-red-600" />
+                    <span>Cerrar sesión</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
         </div>
       </header>
 

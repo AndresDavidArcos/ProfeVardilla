@@ -1,21 +1,19 @@
 import { FaPlus, FaChartBar } from 'react-icons/fa';
-
 export default function Sidebar({ 
   isOpen, 
   onClose, 
   chatFilter, 
   setChatFilter, 
-  chatHistory, 
-  onStartNewChat, 
-  onSelectResult 
 }) {
+
+  const chatHistory = "appwrite"
+
   const filteredHistory = chatFilter === 'all' 
     ? chatHistory 
     : chatHistory.filter(chat => chat.type === chatFilter);
 
   return (
     <>
-      {/* Sidebar Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/20 z-20"
@@ -31,19 +29,16 @@ export default function Sidebar({
           {/* Header with hamburger icon space */}
           <div className="h-16"></div>
           
-          {/* Scrollable content */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
             {/* Action Buttons */}
             <div className="space-y-3">
               <button
-                onClick={onStartNewChat}
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-colors"
               >
                 <FaPlus className="w-4 h-4" />
                 <span>Iniciar Chat</span>
               </button>
               <button
-                onClick={onSelectResult}
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
               >
                 <FaChartBar className="w-4 h-4" />
