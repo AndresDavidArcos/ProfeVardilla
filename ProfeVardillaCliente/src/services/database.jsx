@@ -1,21 +1,21 @@
 import { databases } from "./appwrite"; 
-import { getUser } from "./auth";
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 
 const DB_ID = '67e1d3e400085306d448';
-const COLLECTION_CHATHISTORY_ID = '67e3749f0028276debf7';
-const COLLECTION_EVALUATIONRESULTS_ID = '67e1e105003763c479e2';
+const COLLECTION_CHATHISTORY_ID = '67e8102600088792014f';
+const COLLECTION_EVALUATIONRESULTS_ID = '67e81030002f0f0ade8a';
+const COLLECTION_CHATEVALUATION_ID = '67e8120f001825966f68';
 
-const saveEvaluationResults = async (results, name) => {
+
+const saveEvaluationResults = async (userId, results, name) => {
     try {
-        const userData = await getUser();        
         const response = await databases.createDocument(
             DB_ID,
             COLLECTION_EVALUATIONRESULTS_ID,
             ID.unique(), 
             {
                 evaluationDate: new Date().toISOString(),
-                userId: userData.$id,
+                userId,
                 name,
                 results: JSON.stringify(results)
             }
@@ -23,6 +23,7 @@ const saveEvaluationResults = async (results, name) => {
 
         console.log('Evaluacion guardada exitosamente:', {
             id: response.$id,
+            response
         });
 
     } catch (error) {
@@ -35,34 +36,68 @@ const saveEvaluationResults = async (results, name) => {
     }
 };
 
-const createChatHistory = async (mode, name) => {
-    try {
-      const userData = await getUser();
-      
-      const response = await databases.createDocument(
+const createChatHistory = async (
+  userId, 
+  mode, 
+  name, 
+  initialMessage,
+  selectedIndicatorDetails = null, 
+  questionsPerIndicator = null
+) => {
+  try {
+    let evaluationId = null;
+
+    if (mode === 'practice') {
+      const evaluationResponse = await databases.createDocument(
         DB_ID,
-        COLLECTION_CHATHISTORY_ID,
+        COLLECTION_CHATEVALUATION_ID,
         ID.unique(),
         {
-          userId: userData.$id,
-          mode,
-          name,
-          history: "",
-          updatedAt: new Date().toISOString()
+          selectedIndicatorDetails: JSON.stringify(selectedIndicatorDetails),
+          questionsPerIndicator, 
         }
       );
-  
-      console.log('Historial creado:', response.$id);
-      return response.$id;
-  
-    } catch (error) {
-      console.error('Error creando historial:', {
-        error: error.message,
-        code: error.code,
-        type: error.type
-      });
+      evaluationId = evaluationResponse.$id;
     }
-  };
+
+    const chatData = {
+      userId,
+      mode,
+      name,
+      history: JSON.stringify(initialMessage),
+      ...(evaluationId && { chatEvaluation: evaluationId })
+    };
+
+    const historyResponse = await databases.createDocument(
+      DB_ID,
+      COLLECTION_CHATHISTORY_ID,
+      ID.unique(),
+      chatData
+    );
+
+    console.log('Chat creado:', {
+      historyId: historyResponse.$id,
+      evaluationId: evaluationId || 'N/A'
+    });
+
+    return {
+      chatId: historyResponse.$id,
+      evaluationId: evaluationId
+    };
+
+  } catch (error) {
+    console.error('Error en createChatHistory:', {
+      step: 'createChatHistory',
+      error: error.message,
+      metadata: {
+        mode,
+        hasEvaluation: !!evaluationId,
+        userId
+      }
+    });
+  }
+};
+
 
   const updateChatHistory = async (documentId, newHistory) => {
     try {
@@ -72,11 +107,10 @@ const createChatHistory = async (mode, name) => {
         documentId,
         {
           history: JSON.stringify(newHistory), 
-          updatedAt: new Date().toISOString()
         }
       );
   
-      console.log('Historial actualizado:', documentId);
+      console.log('Historial actualizado:', documentId, response);
       return response;
   
     } catch (error) {
@@ -88,29 +122,136 @@ const createChatHistory = async (mode, name) => {
     }
   };
 
+  const updateChatEvaluationResults = async (documentId, newEvaluationResults) => {
+    try {
+      const response = await databases.updateDocument(
+        DB_ID,
+        COLLECTION_CHATEVALUATION_ID,
+        documentId,
+        {
+          evaluationResults: JSON.stringify(newEvaluationResults), 
+        }
+      );
+  
+      console.log('evaluationResults de chatevaluation actualizado:', documentId, response);
+      return response;
+  
+    } catch (error) {
+      console.error('Error actualizando evaluationResults de chatevaluation:', {
+        documentId,
+        newEvaluationResults,
+        error: error.message,
+        status: error.code
+      });
+    }
+  };  
+
+  const updateChatQueue = async (documentId, questionsQueue) => {
+    try {
+      const response = await databases.updateDocument(
+        DB_ID,
+        COLLECTION_CHATEVALUATION_ID,
+        documentId,
+        {
+          questionsQueue: JSON.stringify(questionsQueue),
+        }
+      );
+      console.log('Cola de evaluación actualizada:', documentId, response);
+      return response
+  
+    } catch (error) {
+      console.error('Error actualizando cola de evaluación:', {
+        documentId,
+        questionsQueue: JSON.stringify(questionsQueue),
+        error: error.message,
+        status: error.code
+      });
+    }
+  };  
+
+  const updateChatCurrentQuestion = async (documentId, currentQuestion) => {
+    try {
+      const response = await databases.updateDocument(
+        DB_ID,
+        COLLECTION_CHATEVALUATION_ID,
+        documentId,
+        {
+          currentQuestion: JSON.stringify(currentQuestion),
+        }
+      );
+      console.log('CurrentQuestion actualizada', documentId, response);
+      return response
+  
+    } catch (error) {
+      console.error('Error actualizando CurrentQuestion:', {
+        documentId,
+        currentQuestion,
+        error: error.message,
+        status: error.code
+      });
+    }
+  };   
+
+  const updateChatHasResults = async (documentId, hasResults) => {
+    try {
+      const response = await databases.updateDocument(
+        DB_ID,
+        COLLECTION_CHATEVALUATION_ID,
+        documentId,
+        {
+          hasResults: hasResults, 
+        }
+      );
+  
+      console.log('Estado de resultados actualizado:', documentId, hasResults, response);
+      return response;
+  
+    } catch (error) {
+      console.error('Error actualizando estado de resultados:', {
+        documentId,
+        error: error.message,
+        status: error.code
+      });
+    }
+  };  
+
   const getHistoryList = async (userId) => {
     return await databases.listDocuments(
-      'DB_ID',
+      DB_ID,
       COLLECTION_CHATHISTORY_ID,
       [
         Query.equal('userId', userId),
-        Query.select(['$id', 'name', 'updatedAt']),
+        Query.select(['$id', 'name', 'mode','$updatedAt']),
       ]
     );
   };  
 
   const getHistoryDetails = async (documentId) => {
     const doc = await databases.getDocument(
-      'DB_ID',
-      'COLLECTION_ID',
+      DB_ID,
+      COLLECTION_CHATHISTORY_ID,
       documentId
     ); 
+
+    const safeParse = (str) => {
+      if (!str) return null;
+      try {
+        return JSON.parse(str);
+      } catch {
+        return null;
+      }
+    };
+
     return {
       ...doc,
-      history: JSON.parse(doc.history)
+      history: safeParse(doc.history),
+      currentQuestion: safeParse(doc.currentQuestion), 
+      selectedIndicatorDetails: safeParse(doc.selectedIndicatorDetails),
+      questionsQueue: safeParse(doc.questionsQueue),
+      evaluationResults: safeParse(doc.evaluationResults)      
     };
   };  
   
   
 
-export { saveEvaluationResults, createChatHistory, updateChatHistory, getHistoryList };
+export { saveEvaluationResults, createChatHistory, updateChatHistory, getHistoryList, getHistoryDetails, updateChatQueue, updateChatHasResults, updateChatCurrentQuestion, updateChatEvaluationResults };

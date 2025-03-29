@@ -4,25 +4,31 @@ import os
 
 def generate_questions(indicador_logro: str, n: int) -> list[str]:
     print("\n\nn: ", n,"\n")
-    pregunta_palabra = "pregunta académica" if n == 1 else f"{n} preguntas académicas"
 
-    prompt = (
-        f"Genera exactamente {n} preguntas academicas sobre: '{indicador_logro}'\n"
+    prompt_1 = (
+        f"Genera EXACTAMENTE 1 pregunta academica en español sobre: '{indicador_logro}'\n"
+        "Requisitos estrictos:\n"
+        "1. La pregunta debe cubrir un enfoque academico como definiciones, comparaciones, ejemplos, procesos, caracteristicas, analisis, etc...\n"
+        "2. La pregunta debe iniciar con <soquestion> y terminar con <eoquestion>\n"
+        "3. Solo incluir la pregunta, sin comentarios, numeración o categorías\n"
+        "\nEjemplo de formato válido para 1 pregunta:\n"
+        "<soquestion> texto 1<eoquestion>\n"
+    )   
+    prompt_n = (
+        f"Genera EXACTAMENTE {n} preguntas academicas en español sobre: '{indicador_logro}'\n"
         "Requisitos estrictos:\n"
         "1. Preguntas variadas cubriendo diferentes enfoques (definiciones, comparaciones, ejemplos, procesos, caracteristicas, analisis, etc...)\n"
         "2. Cada pregunta debe iniciar con <soquestion> y terminar con <eoquestion>\n"
         "3. Solo incluir las preguntas, sin comentarios, numeración o categorías\n"
-        "\nEjemplo de formato válido para 1 pregunta:\n"
-        "<soquestion> texto 1<eoquestion>\n"
         "\nEjemplo de formato válido para 2 preguntas:\n"
         "<soquestion> texto 1<eoquestion>\n"
         "<soquestion> texto 2<eoquestion>\n"
-    )    
+    )   
     groq_client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
     response = groq_client.chat.completions.create(
         messages=[{
             'role': 'user',
-            'content': prompt
+            'content': prompt_1 if n == 1 else prompt_n
         }],
         model='llama3-70b-8192',
     )

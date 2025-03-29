@@ -1,16 +1,48 @@
 import { FaPlus, FaChartBar } from 'react-icons/fa';
+import { useAuth } from '../context/AuthContext';
+import { useEffect, useState } from 'react';
+import { getHistoryList } from '../services/database';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
 export default function Sidebar({ 
   isOpen, 
-  onClose, 
-  chatFilter, 
-  setChatFilter, 
+  onClose
 }) {
+  const { chatId } = useParams(); 
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [chatHistory, setChatHistory] = useState([]);
+  const [chatFilter, setChatFilter] = useState('all')
 
-  const chatHistory = "appwrite"
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        if (user) {
+          const response = await getHistoryList(user.$id);
+          const sortedChats = response.documents
+            .sort((a, b) => new Date(b.$updatedAt) - new Date(a.$updatedAt))
+            .map(chat => ({
+              ...chat,
+              date: new Date(chat.$updatedAt).toLocaleDateString('es-ES', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+              })
+            }));
+          setChatHistory(sortedChats);
+        }
+      } catch (err) {
+        console.error('Error cargando el historial', err);
+      }
+    };
+
+    fetchHistory();
+  }, [user, chatId]);
 
   const filteredHistory = chatFilter === 'all' 
     ? chatHistory 
-    : chatHistory.filter(chat => chat.type === chatFilter);
+    : chatHistory.filter(chat => chat.mode === chatFilter);
 
   return (
     <>
@@ -34,6 +66,10 @@ export default function Sidebar({
             <div className="space-y-3">
               <button
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-colors"
+                onClick={() => {
+                  navigate(`/`);          
+                  onClose();
+                }}                
               >
                 <FaPlus className="w-4 h-4" />
                 <span>Iniciar Chat</span>
@@ -80,7 +116,7 @@ export default function Sidebar({
                       : 'text-gray-600 hover:text-gray-800'
                   }`}
                 >
-                  Dudas
+                  Consultas
                 </button>
               </div>
 
@@ -88,25 +124,24 @@ export default function Sidebar({
               <div className="space-y-2">
                 {filteredHistory.map(chat => (
                   <button
-                    key={chat.id}
+                    key={chat.$id}
                     className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors"
                     onClick={() => {
-                      // Aquí iría la lógica para cargar el chat
+                      navigate(`/chat/${chat.$id}`);          
                       onClose();
                     }}
                   >
                     <div className="flex items-center justify-between">
-                      <h4 className="font-medium text-gray-800">{chat.title}</h4>
+                      <h4 className="font-medium text-gray-800">{chat.name}</h4>
                       <span className={`text-xs px-2 py-1 rounded-full ${
-                        chat.type === 'practice' 
+                        chat.mode === 'practice' 
                           ? 'bg-primary-100 text-primary-700' 
                           : 'bg-primary-50 text-primary-600'
                       }`}>
-                        {chat.type === 'practice' ? 'Práctica' : 'Consulta'}
+                        {chat.mode === 'practice' ? 'Práctica' : 'Consulta'}
                       </span>
                     </div>
                     <p className="text-sm text-gray-500">{chat.date}</p>
-                    <p className="text-sm text-gray-600 truncate mt-1">{chat.preview}</p>
                   </button>
                 ))}
               </div>
