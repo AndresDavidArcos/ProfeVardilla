@@ -14,7 +14,6 @@ const saveEvaluationResults = async (userId, results, name) => {
             COLLECTION_EVALUATIONRESULTS_ID,
             ID.unique(), 
             {
-                evaluationDate: new Date().toISOString(),
                 userId,
                 name,
                 results: JSON.stringify(results)
@@ -80,10 +79,7 @@ const createChatHistory = async (
       evaluationId: evaluationId || 'N/A'
     });
 
-    return {
-      chatId: historyResponse.$id,
-      evaluationId: evaluationId
-    };
+    return historyResponse.$id;
 
   } catch (error) {
     console.error('Error en createChatHistory:', {
@@ -227,11 +223,6 @@ const createChatHistory = async (
   };  
 
   const getHistoryDetails = async (documentId) => {
-    const doc = await databases.getDocument(
-      DB_ID,
-      COLLECTION_CHATHISTORY_ID,
-      documentId
-    ); 
 
     const safeParse = (str) => {
       if (!str) return null;
@@ -240,18 +231,38 @@ const createChatHistory = async (
       } catch {
         return null;
       }
-    };
-
-    return {
-      ...doc,
-      history: safeParse(doc.history),
-      currentQuestion: safeParse(doc.currentQuestion), 
-      selectedIndicatorDetails: safeParse(doc.selectedIndicatorDetails),
-      questionsQueue: safeParse(doc.questionsQueue),
-      evaluationResults: safeParse(doc.evaluationResults)      
-    };
-  };  
+    };    
+    
+    const chatDoc = await databases.getDocument(
+      DB_ID,
+      COLLECTION_CHATHISTORY_ID,
+      documentId
+    );
   
+    let evaluationData = {};
+    
+    if (chatDoc.chatEvaluation) {  
+        evaluationData = {
+          evaluationResults: safeParse(chatDoc.chatEvaluation.evaluationResults),
+          questionsQueue: safeParse(chatDoc.chatEvaluation.questionsQueue),
+          currentQuestion: safeParse(chatDoc.chatEvaluation.currentQuestion),
+          selectedIndicatorDetails: safeParse(chatDoc.chatEvaluation.selectedIndicatorDetails),
+          questionsPerIndicator: chatDoc.chatEvaluation.questionsPerIndicator || null,
+          hasResults: chatDoc.chatEvaluation.hasResults || false,
+          evaluationId: chatDoc.chatEvaluation.$id
+        };
+    }
+  
+    return {
+      ...evaluationData,
+      history: safeParse(chatDoc.history),
+      mode: chatDoc.mode,
+      name: chatDoc.name,
+      $id: chatDoc.$id,
+      $createdAt: chatDoc.$createdAt,
+      $updatedAt: chatDoc.$updatedAt
+    };
+  };
   
 
 export { saveEvaluationResults, createChatHistory, updateChatHistory, getHistoryList, getHistoryDetails, updateChatQueue, updateChatHasResults, updateChatCurrentQuestion, updateChatEvaluationResults };

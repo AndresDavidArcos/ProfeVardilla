@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect} from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Send, LogOut, Mic, MicOff, Loader2, VolumeX } from 'lucide-react';
 import ChatMessage from './ChatMessage';
 import removeMarkdown from 'remove-markdown';
@@ -65,13 +65,7 @@ export default function ChatScreen() {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const userRef = useRef(user);
-  const evaluationQueueRef = useRef(evaluationQueue);
-
-
-  useEffect(() => {
-    evaluationQueueRef.current = evaluationQueue;
-  }, [evaluationQueue]);
-
+  const evaluationId  = useRef(null);
 
   useEffect(() => {
     userRef.current = user;
@@ -84,10 +78,12 @@ export default function ChatScreen() {
 
         if (chatId) {
           const chatHistory = await getHistoryDetails(chatId);
+          console.log("chatHistoryDetails: ", chatHistory)
           setCurrentChatId(chatId);
           setMessages(chatHistory.history);
           setSelectedPath(chatHistory.mode);
            if (chatHistory.mode === 'practice') {
+            evaluationId.current = chatHistory.evaluationId;
             setHasResults(chatHistory.hasResults);
             setEvaluationResults(chatHistory.evaluationResults || {});            
             if (!chatHistory.questionsQueue) {
@@ -98,17 +94,16 @@ export default function ChatScreen() {
 
               console.log("generated queue: ", generatedQueue)
               
-              await updateChatQueue(chatId, generatedQueue);
+              await updateChatQueue(evaluationId.current, generatedQueue);
               setEvaluationQueue(generatedQueue);
             } else {
-
               setCurrentQuestion(chatHistory.currentQuestion);
               setEvaluationQueue(chatHistory.questionsQueue);
             }
-
           }          
         } else {
           setCurrentChatId(null);
+          evaluationId.current = null;
           setEvaluationQueue(null);
           setCurrentQuestion(null);
           setEvaluationResults({});
@@ -143,9 +138,9 @@ export default function ChatScreen() {
     const handleEvaluationQueue = async () => {
     if (selectedPath === 'practice' && evaluationQueue && !hasResults && initialLoadComplete && !currentQuestion) {
       console.log("el efecto de evaluationqueue cumple las condiciones")
-      await updateChatQueue(currentChatId, evaluationQueueRef.current)
+      await updateChatQueue(evaluationId.current, evaluationQueue)
       console.log("actualiza la queue en la db y pasa a la next question")
-      processNextQuestion(evaluationQueueRef.current);
+      processNextQuestion();
     }
     }
     
@@ -249,7 +244,7 @@ export default function ChatScreen() {
               ]
             };            
             setEvaluationResults(updatedResults);          
-            await updateChatEvaluationResults(currentChatId, updatedResults);
+            await updateChatEvaluationResults(evaluationId.current, updatedResults);
 
             setMessages((prev) => [
               ...prev,
@@ -355,10 +350,10 @@ export default function ChatScreen() {
     navigate(`/chat/${newChatId}`);     
   };
 
-  const processNextQuestion = async (currentQueue) => {
-    console.log("proceesnextquestion", currentQueue)
+  const processNextQuestion = async () => {
+    console.log("proceesnextquestion", evaluationQueue)
 
-    if (currentQueue.length === 0) {
+    if (evaluationQueue.length === 0) {
       let totalCorrect = 0;
       let totalIncorrect = 0;
       let resultsMarkdown = "¡Evaluación completada! Aquí están tus resultados:\n\n";
@@ -391,12 +386,12 @@ export default function ChatScreen() {
       ]);
 
       saveEvaluationResults(user.$id, evaluationResults, `${faker.word.adjective()} ${faker.animal.type()}`)
-      updateChatHasResults(currentChatId, true);
+      updateChatHasResults(evaluationId.current, true);
       setHasResults(true);
       return;
     }
   
-    const nextQuestion = currentQueue[0];
+    const nextQuestion = evaluationQueue[0];
     console.log("mensaje pregutna enviado al chat con",       {
       text: nextQuestion.questionText,
       sender: 'assistant',
@@ -409,7 +404,7 @@ export default function ChatScreen() {
       id: Date.now(),
       timestamp: new Date(),
     })
-    await updateChatCurrentQuestion(currentChatId, nextQuestion);
+    await updateChatCurrentQuestion(evaluationId.current, nextQuestion);
     setCurrentQuestion(nextQuestion);
 
     setMessages((prev) => [
