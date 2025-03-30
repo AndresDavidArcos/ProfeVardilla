@@ -211,6 +211,17 @@ const createChatHistory = async (
     }
   };  
 
+  const getEvaluationResults = async (userId) => {
+    return await databases.listDocuments(
+      DB_ID,
+      COLLECTION_EVALUATIONRESULTS_ID,
+      [
+        Query.equal('userId', userId),
+        Query.select(['$id', 'name', 'results','$updatedAt']),
+      ]
+    );
+  };    
+
   const getHistoryList = async (userId) => {
     return await databases.listDocuments(
       DB_ID,
@@ -265,4 +276,4 @@ const createChatHistory = async (
   };
   
 
-export { saveEvaluationResults, createChatHistory, updateChatHistory, getHistoryList, getHistoryDetails, updateChatQueue, updateChatHasResults, updateChatCurrentQuestion, updateChatEvaluationResults };
+export { saveEvaluationResults, createChatHistory, updateChatHistory, getEvaluationResults,getHistoryList, getHistoryDetails, updateChatQueue, updateChatHasResults, updateChatCurrentQuestion, updateChatEvaluationResults };

@@ -1,14 +1,11 @@
-import { FaPlus, FaChartBar } from 'react-icons/fa';
+import { FaPlus, FaChartBar, FaBars, FaTimes } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
 import { getHistoryList } from '../services/database';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function Sidebar({ 
-  isOpen, 
-  onClose
-}) {
+export default function Sidebar() {
+  const [isOpen, setIsOpen] = useState(false);
   const { chatId } = useParams(); 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -16,7 +13,7 @@ export default function Sidebar({
   const [chatFilter, setChatFilter] = useState('all')
 
   useEffect(() => {
-    const fetchHistory = async () => {
+    const loadHistory = async () => {
       try {
         if (user) {
           const response = await getHistoryList(user.$id);
@@ -37,7 +34,7 @@ export default function Sidebar({
       }
     };
 
-    fetchHistory();
+    loadHistory();
   }, [user, chatId]);
 
   const filteredHistory = chatFilter === 'all' 
@@ -46,13 +43,21 @@ export default function Sidebar({
 
   return (
     <>
+      {/* Sidebar Toggle Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed top-4 left-4 z-30 p-2 rounded-lg bg-white shadow-md hover:bg-gray-50 transition-colors"
+      >
+        {isOpen ? <FaTimes /> : <FaBars />}
+      </button>
+
+      {/* Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/20 z-20"
-          onClick={onClose}
+          onClick={() => setIsOpen(false)}
         />
       )}
-
       {/* Sidebar */}
       <div className={`fixed top-0 left-0 h-full w-80 bg-white shadow-xl z-20 transform transition-transform duration-300 ease-in-out ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
@@ -68,7 +73,7 @@ export default function Sidebar({
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-colors"
                 onClick={() => {
                   navigate(`/`);          
-                  onClose();
+                  setIsOpen(false);                  
                 }}                
               >
                 <FaPlus className="w-4 h-4" />
@@ -76,6 +81,10 @@ export default function Sidebar({
               </button>
               <button
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+                onClick={() => {
+                  navigate(`/resultados`);          
+                  setIsOpen(false);                  
+                }}
               >
                 <FaChartBar className="w-4 h-4" />
                 <span>Ver mis resultados</span>
@@ -125,8 +134,12 @@ export default function Sidebar({
                 {filteredHistory.map(chat => (
                   <button
                     key={chat.$id}
-                    className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors"
-                    onClick={() => {
+                    className={`w-full text-left p-3 rounded-lg transition-colors ${
+                      chatId === chat.$id 
+                        ? "bg-primary-100 hover:bg-gradient-to-r from-[#F9D1D7] to-[#F2A3AE] transition-all duration-300 selectedChatName"
+                        : "hover:bg-gray-50" 
+                    }`}
+                      onClick={() => {
                       navigate(`/chat/${chat.$id}`);          
                       onClose();
                     }}

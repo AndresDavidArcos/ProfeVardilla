@@ -1,24 +1,19 @@
 import { useState, useRef, useEffect} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Send, LogOut, Mic, MicOff, Loader2, VolumeX } from 'lucide-react';
+import { Send, Mic, MicOff, Loader2, VolumeX } from 'lucide-react';
 import ChatMessage from './ChatMessage';
 import removeMarkdown from 'remove-markdown';
-import Uvardilla from '../assets/Uvardilla';
 import LearningIndicators from './LearningIndicators';
 import { indicators } from '../constants/indicators';
-import Sidebar from './Sidebar';
-import { FaBars, FaTimes } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
 import { saveEvaluationResults, createChatHistory, updateChatHistory, getHistoryDetails, updateChatQueue, updateChatHasResults, updateChatCurrentQuestion, updateChatEvaluationResults } from '../services/database';
 import { fakerES as faker } from '@faker-js/faker';
 import { useAuth } from '../context/AuthContext';
-
 
 const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
 export default function ChatScreen() {
   const baseUrl = 'http://localhost:8000/'  
-  const { user, userLoading, login, logout } = useAuth();
+  const { user } = useAuth();
   const { chatId } = useParams();
   const navigate = useNavigate();
 
@@ -44,7 +39,6 @@ export default function ChatScreen() {
       navigate(`/chat/${newChatId}`);         
     }
   };
-
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [isLoadingChat, setIsLoadingChat] = useState(true);
@@ -59,13 +53,12 @@ export default function ChatScreen() {
   const [isMicOn, setIsMicOn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentChatId, setCurrentChatId] = useState(null);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const userRef = useRef(user);
   const evaluationId  = useRef(null);
+  const chatName = useRef(null);
 
   useEffect(() => {
     userRef.current = user;
@@ -80,6 +73,7 @@ export default function ChatScreen() {
           const chatHistory = await getHistoryDetails(chatId);
           console.log("chatHistoryDetails: ", chatHistory)
           setCurrentChatId(chatId);
+          chatName.current = chatHistory.name;
           setMessages(chatHistory.history);
           setSelectedPath(chatHistory.mode);
            if (chatHistory.mode === 'practice') {
@@ -158,10 +152,6 @@ export default function ChatScreen() {
     }
     saveMessagesToDb();
   }, [messages]);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
   const handleSend = async (text = inputText, isAudioQuery = false) => {
     if (text.trim()) {
@@ -385,7 +375,7 @@ export default function ChatScreen() {
         },
       ]);
 
-      saveEvaluationResults(user.$id, evaluationResults, `${faker.word.adjective()} ${faker.animal.type()}`)
+      saveEvaluationResults(user.$id, evaluationResults, chatName.current);
       updateChatHasResults(evaluationId.current, true);
       setHasResults(true);
       return;
@@ -509,75 +499,8 @@ export default function ChatScreen() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 relative">
-      {/* Sidebar Toggle Button */}
-      <button
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="fixed top-4 left-4 z-30 p-2 rounded-lg bg-white shadow-md hover:bg-gray-50 transition-colors"
-      >
-        {isSidebarOpen ? <FaTimes /> : <FaBars />}
-      </button>      
-      <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-      /> 
-      {/* Header */}
-      <header className="bg-white shadow-sm fixed top-0 w-full z-10">
-        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-          <Uvardilla className="w-8 h-8 text-red-600 scale-[1.2]" />
-          <h1 className="text-xl font-semibold text-gray-800">Profesor Vardilla</h1>
-          </div>
-
-          <div className="relative">
-          {userLoading ? (
-            <div className="flex items-center gap-2">
-              {/* Skeleton para el botón de login */}
-              <div className="h-[42px] w-[178px] bg-gray-200 rounded-md animate-pulse" />
-            </div>
-          ) : !user ? (
-            // Botón de login cuando no hay usuario
-            <button
-              onClick={login}
-              className="w-full flex items-center justify-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md"
-            >
-              <FcGoogle className="h-5 w-5 bg-white rounded-full" />
-              <span>Iniciar sesión</span>
-            </button>
-          ) : (
-            // Perfil de usuario cuando está autenticado
-            <div className="relative">
-              <div
-                onClick={toggleMenu}
-                className="flex items-center gap-2 cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors"
-              >
-                <img
-                  src={user.prefs?.photoURL || `https://ui-avatars.com/api/?name=${user.name}&background=ff0000&color=fff`}
-                  alt="Perfil de usuario"
-                  className="w-8 h-8 rounded-full"
-                />
-                <span className="font-medium">{user.name}</span>
-              </div>
-
-              {/* Menú desplegable */}
-              {isMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                  <button
-                    onClick={logout}
-                    className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    <LogOut className="w-4 h-4 mr-2 text-red-600" />
-                    <span>Cerrar sesión</span>
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-        </div>
-      </header>
-
-      {/* Chat Container */}
+    <>
+    {/* Chat Container */}
       <div className="max-w-4xl mx-auto pt-16 pb-24 px-4">
         <div className="space-y-4 py-4">
           {messages.map((message, index) => (
@@ -648,6 +571,6 @@ export default function ChatScreen() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

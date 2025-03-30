@@ -31,13 +31,6 @@ def preprocess_query(query):
     query = query.replace('\x00', '')
     return query
 
-def save_docs_to_file(docs: list[str], filename: str = "documents.md"):    
-    with open(os.path.join(DEBUGGINGFILES, filename), "w", encoding="utf8") as file:
-        for i, doc in enumerate(docs):
-            file.write(f"**Documento {i + 1}:**\n\n")
-            file.write(f"{doc.strip()}\n")
-            file.write("\n---\n\n")
-
 def load_bm25_corpus(file_path: str) -> list[Document]:
     with open(file_path, "r", encoding="utf8") as f:
         data = json.load(f)
@@ -130,7 +123,6 @@ def generate_context(query_text):
     ]
     )
     
-    save_docs_to_file([context], filename="rag_results.md")
     return context, final_documents
 
 def query_rag(query_text):
