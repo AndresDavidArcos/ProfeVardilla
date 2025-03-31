@@ -141,7 +141,6 @@ export default function Sidebar() {
                     }`}
                       onClick={() => {
                       navigate(`/chat/${chat.$id}`);          
-                      onClose();
                     }}
                   >
                     <div className="flex items-center justify-between">

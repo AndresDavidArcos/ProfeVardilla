@@ -90,22 +90,23 @@ function ChatMessage({ message, pdfBaseUrl}) {
         {isAi && sources.length > 0 && (
           <div className="mt-3">
             <p className="text-xs font-medium text-gray-600 mb-2">Fuentes:</p>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="grid grid-cols-2 gap-1.5">
               {displayedSources.map((source, index) => (
                 <a
                   key={index}
                   href={source.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center backdrop-blur-sm bg-white/70 hover:bg-white/90 shadow-sm text-gray-700 px-3 py-1 rounded-full text-xs transition-all"
+                  className="flex items-center backdrop-blur-sm bg-white/70 hover:bg-white/90 shadow-sm text-gray-700 px-3 py-1 rounded-full text-xs transition-all w-full"
                 >
-                  <span
-                   className="flex items-center justify-center w-5 h-5 rounded-full bg-primary-100 text-primary-600 mr-1.5 font-semibold">
-                   {index+1} 
-                   </span>
-                  <span>{source.title}</span>
-                  <span className="mx-1.5">•</span>
-                  <span className="font-medium">p.{source.page}</span>
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary-100 text-primary-600 mr-1.5 font-semibold shrink-0">
+                    {index+1} 
+                  </span>
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="truncate">{source.title}</span>
+                    <span className="shrink-0">•</span>
+                    <span className="font-medium shrink-0">p.{source.page}</span>
+                  </div>
                 </a>
               ))}
             </div>

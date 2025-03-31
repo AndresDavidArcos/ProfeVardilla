@@ -59,6 +59,7 @@ export default function ChatScreen() {
   const userRef = useRef(user);
   const evaluationId  = useRef(null);
   const chatName = useRef(null);
+  const initialMessagesRef = useRef([]);
 
   useEffect(() => {
     userRef.current = user;
@@ -67,10 +68,17 @@ export default function ChatScreen() {
   useEffect(() => {
     const loadChat = async () => {
       try {
-        setInitialLoadComplete(false);  
-
+        setInitialLoadComplete(false); 
+        evaluationId.current = null;
+        setEvaluationQueue(null);
+        setCurrentQuestion(null);
+        setEvaluationResults({});
+        setHasResults(false);         
+        console.log("cargando chat...")
         if (chatId) {
+          console.log("ChatId identificado ", chatId)
           const chatHistory = await getHistoryDetails(chatId);
+          initialMessagesRef.current = chatHistory.history;          
           console.log("chatHistoryDetails: ", chatHistory)
           setCurrentChatId(chatId);
           chatName.current = chatHistory.name;
@@ -78,6 +86,7 @@ export default function ChatScreen() {
           setSelectedPath(chatHistory.mode);
            if (chatHistory.mode === 'practice') {
             evaluationId.current = chatHistory.evaluationId;
+            console.log("practice sethasresults: ", chatHistory.hasResults)
             setHasResults(chatHistory.hasResults);
             setEvaluationResults(chatHistory.evaluationResults || {});            
             if (!chatHistory.questionsQueue) {
@@ -97,11 +106,6 @@ export default function ChatScreen() {
           }          
         } else {
           setCurrentChatId(null);
-          evaluationId.current = null;
-          setEvaluationQueue(null);
-          setCurrentQuestion(null);
-          setEvaluationResults({});
-          setHasResults(false);
           setSelectedPath(null);          
           setMessages([{
             id: 1,
@@ -143,9 +147,9 @@ export default function ChatScreen() {
 
   useEffect(() => {
     const saveMessagesToDb = async () => {
-      console.log("entra al use effect y la conidtion da: ", (currentChatId && messages.length > 0),
+      console.log("entra al use effect y la conidtion da: ", (currentChatId && messages.length > 0 && JSON.stringify(messages) !== JSON.stringify(initialMessagesRef.current)),
       `\n\n con los messages: ${messages}`)
-      if (currentChatId && messages.length > 0) {
+      if (currentChatId && messages.length > 0 && JSON.stringify(messages) !== JSON.stringify(initialMessagesRef.current)) {
         const res = await updateChatHistory(currentChatId, messages)
         console.log("actualizacion en la db del historial desde el use effect con: ", res)
       }
