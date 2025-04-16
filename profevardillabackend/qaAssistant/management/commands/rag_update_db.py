@@ -22,22 +22,27 @@ class Command(BaseCommand):
         tokenizer = tiktoken.get_encoding("cl100k_base")
 
 
-        def preprocess_text(text: str) -> str:
-            # Convertir a minúsculas
+        def preprocess_text(text):
+            #Eliminar encabezados de documento
+            text = re.sub(r'-{3} DOCUMENTO: .*? -{3}', '', text, flags=re.DOTALL)
+            text = re.sub(r'Desarrollo de Software I\n+', '', text)
+            
             text = text.lower()
             # Eliminar tildes
             text = ''.join(c for c in unicodedata.normalize('NFD', text) if unicodedata.category(c) != 'Mn')
             text = text.replace('\x00', '')
             # Eliminar caracteres especiales
-            chars_to_remove = ["•", "➢", "▪", "●", "◦", "▶", "►", "∗", "‐", "‑", "‒", "–", "—", "✔", "✖", "★", "☆", "→", "⇒", "∴", "∵", "※"]
+            chars_to_remove = ["•", "➢", "▪", "●", "◦", "▶", "►", "∗", "‐", "‑", "‒", "–", "—", "✔", "✖", "★", "☆"]
             for char in chars_to_remove:
                 text = text.replace(char, "")
             # Eliminar números aislados en una línea
-            text = re.sub(r'^\d+\n', '', text, flags=re.MULTILINE)
-            # Eliminar "desarrollo de software i" si está aislado en una línea
-            text = re.sub(r'(?m)^desarrollo de software i$', '', text)
+            text = re.sub(r'^\d+\n', '', text, flags=re.MULTILINE)    
             # Espacios en exceso
             text = re.sub(r'\s+', ' ', text).strip()
+
+            # Eliminar toda puntuación adherida a palabras (ej: "palabra.", "palabra,")
+            text = re.sub(r'[^\w\s]|_', '', text)
+            
             return text
 
         def load_documents(directory: str) -> list[Document]:

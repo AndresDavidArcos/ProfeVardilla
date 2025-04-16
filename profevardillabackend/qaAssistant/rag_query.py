@@ -10,11 +10,12 @@ from langchain.retrievers import  EnsembleRetriever
 from langchain.schema import Document
 from sentence_transformers import CrossEncoder
 from groq import Groq
-
+import time
+import re 
 CHROMA_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chroma")
 CHUNKS_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chunks")
 DEBUGGINGFILES = os.path.join(settings.BASE_DIR, "qaAssistant", "debuggingfiles")
-
+RETRY_DELAY = 5
 PROMPT_TEMPLATE = """
 Utiliza **solamente** el siguiente contexto para responder en español a la pregunta. No añadas información externa.
 
@@ -29,6 +30,7 @@ def preprocess_query(query):
     query = query.lower()
     query = ''.join(c for c in unicodedata.normalize('NFD', query) if unicodedata.category(c) != 'Mn')
     query = query.replace('\x00', '')
+    query = re.sub(r'[^\w\s]|_', '', query)    
     return query
 
 def load_bm25_corpus(file_path: str) -> list[Document]:
@@ -141,31 +143,38 @@ def query_rag(query_text):
         context=context, 
         question=query_text,
     )
-
-    try:
-        groq_client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
-        response = groq_client.chat.completions.create(
-        messages=[
-            {
-                'role': 'system',
-                'content': (
-                    "Eres un asistente académico especializado en la asignatura de Desarrollo de Software en una universidad. "
-                    "Respondes preguntas con base en material proporcionado por los profesores, asegurándote de que tus respuestas "
-                    "sean claras, detalladas, útiles para el aprendizaje y en español."
-                )
-            },
-            {
-                'role': 'user',
-                'content': prompt
-            }
-        ],
-        model='llama3-70b-8192',
-        )
-        if response.choices and len(response.choices) > 0:
+    while True:
+        try:
+            groq_client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
+            response = groq_client.chat.completions.create(
+            messages=[
+                {
+                    'role': 'system',
+                    'content': (
+                        "Eres un asistente académico especializado en la asignatura de Desarrollo de Software en una universidad. "
+                        "Respondes preguntas con base en material proporcionado por los profesores, asegurándote de que tus respuestas "
+                        "sean claras, detalladas, útiles para el aprendizaje y en español."
+                    )
+                },
+                {
+                    'role': 'user',
+                    'content': prompt
+                }
+            ],
+            model='llama3-70b-8192',
+            )
             answer = response.choices[0].message.content
-        else:
-            answer = "No se obtuvo respuesta válida."
-    except requests.exceptions.RequestException as e:
-        answer = f"Error al conectar con Groq: {e}"
+            break
+        except Exception as e:
+            error_message = str(e)
+            print(f"Error al generar expected output: {error_message}")
+
+            if "Limit" in error_message and "TPD" in error_message:
+                print("Se alcanzó el límite de tokens por día. Deteniendo el proceso.")
+                answer = f"Error al conectar con Groq: {e}"
+                break
+
+            print(f"Reintentando en {RETRY_DELAY} segundos...")
+            time.sleep(RETRY_DELAY)               
 
     return answer, documents_dict
