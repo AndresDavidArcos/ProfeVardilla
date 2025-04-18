@@ -26,7 +26,7 @@ class Command(BaseCommand):
             #Eliminar encabezados de documento
             text = re.sub(r'-{3} DOCUMENTO: .*? -{3}', '', text, flags=re.DOTALL)
             text = re.sub(r'Desarrollo de Software I\n+', '', text)
-            
+            #Convertir a minusculas
             text = text.lower()
             # Eliminar tildes
             text = ''.join(c for c in unicodedata.normalize('NFD', text) if unicodedata.category(c) != 'Mn')

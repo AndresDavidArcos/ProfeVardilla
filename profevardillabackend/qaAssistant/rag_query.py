@@ -33,11 +33,6 @@ def preprocess_query(query):
     query = re.sub(r'[^\w\s]|_', '', query)    
     return query
 
-def load_bm25_corpus(file_path: str) -> list[Document]:
-    with open(file_path, "r", encoding="utf8") as f:
-        data = json.load(f)
-    return [Document(page_content=doc, metadata=meta) for doc, meta in zip(data["documents"], data["metadatas"])]
-
 def rerank_documents(query, documents, model_name='cross-encoder/ms-marco-MiniLM-L-12-v2', top_n=5):
     model = CrossEncoder(model_name, max_length=512)
     sentence_pairs = [(query, doc.page_content) for doc in documents]
