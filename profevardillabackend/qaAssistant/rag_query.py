@@ -1,7 +1,5 @@
 import os
-import requests
 import unicodedata
-import json
 from django.conf import settings
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
@@ -10,21 +8,22 @@ from langchain.retrievers import  EnsembleRetriever
 from langchain.schema import Document
 from sentence_transformers import CrossEncoder
 from groq import Groq
+from together import Together
 import time
 import re 
 CHROMA_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chroma")
 CHUNKS_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chunks")
 DEBUGGINGFILES = os.path.join(settings.BASE_DIR, "qaAssistant", "debuggingfiles")
 RETRY_DELAY = 5
-PROMPT_TEMPLATE = """
-Utiliza **solamente** el siguiente contexto para responder en español a la pregunta. No añadas información externa.
 
-CONTEXTO:
-{context}
+USE_TOGETHER = False
 
-PREGUNTA:
-{question}
-"""
+if USE_TOGETHER:
+    llmClient = Together(api_key=os.environ.get('TOGETHER_API_KEY'))
+    model = "AndresCamargo/Qwen2.5-14B-Instruct-DesarrolloSoftware1-Adapter"
+else:
+    llmClient = Groq(api_key=os.environ.get('GROQ_API_KEY'))
+    model = "llama3-70b-8192"
 
 def preprocess_query(query):
     query = query.lower()
@@ -122,6 +121,15 @@ def generate_context(query_text):
     
     return context, final_documents
 
+def format_alpaca_prompt(instruction):
+    return f"""A continuación se presenta una instrucción que describe una tarea. Escribe una respuesta que complete adecuadamente la solicitud.
+
+### Instrucción:
+{instruction}
+
+### Respuesta:
+"""
+
 def query_rag(query_text):
     context, final_documents = generate_context(query_text)
     documents_dict = [doc.__dict__ for doc in final_documents]
@@ -138,36 +146,50 @@ def query_rag(query_text):
         context=context, 
         question=query_text,
     )
+    system_prompt = (
+        "Eres un asistente académico especializado en la asignatura"
+        " de Desarrollo de Software en una universidad. "
+        "Respondes preguntas con base en material proporcionado por"
+        " los profesores, asegurándote de que tus respuestas "
+        "sean claras, detalladas, útiles para el aprendizaje y en español."
+    )   
+    retries = 0
+    max_retries = 1
+    answer = None
     while True:
         try:
-            groq_client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
-            response = groq_client.chat.completions.create(
-            messages=[
-                {
-                    'role': 'system',
-                    'content': (
-                        "Eres un asistente académico especializado en la asignatura de Desarrollo de Software en una universidad. "
-                        "Respondes preguntas con base en material proporcionado por los profesores, asegurándote de que tus respuestas "
-                        "sean claras, detalladas, útiles para el aprendizaje y en español."
-                    )
-                },
-                {
-                    'role': 'user',
-                    'content': prompt
-                }
-            ],
-            model='llama3-70b-8192',
-            )
-            answer = response.choices[0].message.content
+            if USE_TOGETHER:
+                full_prompt = format_alpaca_prompt(system_prompt + "\n\n" + prompt)
+                response = llmClient.completions.create(
+                    model="AndresCamargo/Qwen2.5-14B-Instruct-DesarrolloSoftware1-Adapter",
+                    prompt=full_prompt,
+                )
+                print(response)
+                answer = response.choices[0].text
+            else:
+                response = llmClient.chat.completions.create(
+                    messages=[
+                        {'role': 'system', 'content': system_prompt},
+                        {'role': 'user', 'content': prompt}
+                    ],
+                    model="llama3-70b-8192",
+                )
+                answer = response.choices[0].message.content
             break
         except Exception as e:
+            retries += 1            
             error_message = str(e)
             print(f"Error al generar expected output: {error_message}")
 
             if "Limit" in error_message and "TPD" in error_message:
                 print("Se alcanzó el límite de tokens por día. Deteniendo el proceso.")
-                answer = f"Error al conectar con Groq: {e}"
+                answer = f"ProfeVardilla esta muy ocupado ahora mismo, intenta mas tarde."
                 break
+
+            if retries >= max_retries:
+                print("Máximo número de reintentos alcanzado. Abortando.")
+                answer = f"ProfeVardilla esta muy ocupado ahora mismo, intenta mas tarde."
+                break            
 
             print(f"Reintentando en {RETRY_DELAY} segundos...")
             time.sleep(RETRY_DELAY)               

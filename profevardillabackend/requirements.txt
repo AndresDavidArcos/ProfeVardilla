@@ -6,8 +6,6 @@ chromadb
 pypdf
 sentence-transformers
 torch
-marker-pdf
-Pillow
 jsonschema
 django
 djangorestframework
@@ -18,3 +16,5 @@ rank_bm25
 whitenoise
 python-dotenv
 groq
+together
+pillow
