@@ -18,7 +18,7 @@ class Command(BaseCommand):
         PDF_DIR_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_pdf_data")
         CHROMA_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chroma")
         DEBUGGINGFILES = os.path.join(settings.BASE_DIR, "qaAssistant", "debuggingfiles")
-        CHUNKPERSISTENCE = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chunks")
+        CHUNKPERSISTENCE = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chunks")             
         tokenizer = tiktoken.get_encoding("cl100k_base")
 
 
@@ -131,7 +131,7 @@ class Command(BaseCommand):
             client = chromadb.PersistentClient(path=CHROMA_PATH)
             collection_name = "desarrollo_software"
             embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
-                model_name="Alibaba-NLP/gte-Qwen2-1.5B-instruct"
+                model_name="Alibaba-NLP/gte-Qwen2-1.5B-instruct"    
             )
 
             if collection_name in client.list_collections():

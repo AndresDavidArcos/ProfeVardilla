@@ -5,7 +5,6 @@ langchain-chroma
 chromadb
 pypdf
 sentence-transformers
-torch
 jsonschema
 django
 djangorestframework
@@ -18,3 +17,7 @@ python-dotenv
 groq
 together
 pillow
+uvicorn
+gunicorn
+psutil
+torch==2.6.0

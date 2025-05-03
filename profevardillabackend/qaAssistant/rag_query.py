@@ -11,11 +11,58 @@ from groq import Groq
 from together import Together
 import time
 import re 
+from .rag_singleton import rag
+import cProfile
+import pstats
+import logging
+from functools import wraps
+import time
+
+# Configura logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+logger.addHandler(handler)
+
+def profile(func):
+    """Decorador para profiling de funciones"""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        profiler = cProfile.Profile()
+        profiler.enable()
+        start_time = time.time()
+        
+        try:
+            result = func(*args, **kwargs)
+        finally:
+            profiler.disable()
+            elapsed = time.time() - start_time
+            
+            # Guarda stats en archivo
+            stats = pstats.Stats(profiler)
+            stats.sort_stats(pstats.SortKey.TIME)
+            stats.dump_stats(f"profile_{func.__name__}.prof")
+            
+            logger.info(f"Función {func.__name__} ejecutada en {elapsed:.2f}s")
+            
+        return result
+    return wrapper
+
+def timeit(func):
+    """Decorador para medir tiempo de ejecución"""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        elapsed = time.time() - start_time
+        logger.info(f"TIMING - {func.__name__}: {elapsed:.4f} segundos")
+        return result
+    return wrapper
 CHROMA_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chroma")
 CHUNKS_PATH = os.path.join(settings.BASE_DIR, "qaAssistant", "rag_chunks")
 DEBUGGINGFILES = os.path.join(settings.BASE_DIR, "qaAssistant", "debuggingfiles")
 RETRY_DELAY = 5
-
 USE_TOGETHER = False
 
 if USE_TOGETHER:
@@ -24,18 +71,19 @@ if USE_TOGETHER:
 else:
     llmClient = Groq(api_key=os.environ.get('GROQ_API_KEY'))
     model = "llama3-70b-8192"
-
+@timeit
+@profile
 def preprocess_query(query):
     query = query.lower()
     query = ''.join(c for c in unicodedata.normalize('NFD', query) if unicodedata.category(c) != 'Mn')
     query = query.replace('\x00', '')
     query = re.sub(r'[^\w\s]|_', '', query)    
     return query
-
-def rerank_documents(query, documents, model_name='cross-encoder/ms-marco-MiniLM-L-12-v2', top_n=5):
-    model = CrossEncoder(model_name, max_length=512)
+@timeit
+@profile
+def rerank_documents(query, documents, top_n=5):
     sentence_pairs = [(query, doc.page_content) for doc in documents]
-    scores = model.predict(sentence_pairs)    
+    scores = rag.reranker.predict(sentence_pairs)    
     ranked_docs = sorted(zip(documents, scores), key=lambda x: x[1], reverse=True)
     return [doc for doc, score in ranked_docs[:top_n]] 
 
@@ -85,30 +133,12 @@ def reconstruct_local_context(reranked_documents, chroma_collection):
             final_documents.append(source_page_documents[source_page_key])
     
     return final_documents
-
+@timeit
+@profile
 def generate_context(query_text):
-    embeddingFunction = HuggingFaceEmbeddings(
-        model_name="Alibaba-NLP/gte-Qwen2-1.5B-instruct"
-    )
-    dense_vectorstore = Chroma(
-        persist_directory=CHROMA_PATH,
-        collection_name="desarrollo_software", 
-        embedding_function=embeddingFunction
-    )
-    dense_retriever = dense_vectorstore.as_retriever(search_kwargs={"k": 10})
-    retrieved_data = dense_vectorstore._collection.get()
-    documents = [Document(page_content=doc, metadata=meta) for doc, meta in zip(retrieved_data['documents'], retrieved_data['metadatas'])]
-    bm25_retriever = BM25Retriever.from_documents(documents)
-    bm25_retriever.k = 10
-    
-    ensemble_retriever = EnsembleRetriever(
-        retrievers=[dense_retriever, bm25_retriever],
-        weights=[0.3, 1]
-    )
-    
-    ensemble_results = ensemble_retriever.invoke(query_text)
-    reranked_documents = rerank_documents(query_text, ensemble_results, "cross-encoder/ms-marco-MiniLM-L-12-v2", 10)
-    final_documents = reconstruct_local_context(reranked_documents, dense_vectorstore)
+    ensemble_results = rag.ensemble.invoke(query_text)    
+    reranked_documents = rerank_documents(query_text, ensemble_results, 10)
+    final_documents = reconstruct_local_context(reranked_documents, rag.chroma)
 
     context = "\n\n".join(
     [
@@ -129,9 +159,11 @@ def format_alpaca_prompt(instruction):
 
 ### Respuesta:
 """
-
+@timeit
+@profile
 def query_rag(query_text):
-    context, final_documents = generate_context(query_text)
+    query = preprocess_query(query_text)
+    context, final_documents = generate_context(query)
     documents_dict = [doc.__dict__ for doc in final_documents]
     PROMPT_TEMPLATE = """Utiliza el siguiente contexto para responder a la pregunta.
          
@@ -144,7 +176,7 @@ def query_rag(query_text):
     
     prompt = PROMPT_TEMPLATE.format(
         context=context, 
-        question=query_text,
+        question=query,
     )
     system_prompt = (
         "Eres un asistente académico especializado en la asignatura"

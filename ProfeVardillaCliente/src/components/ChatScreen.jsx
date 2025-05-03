@@ -9,10 +9,8 @@ import { saveEvaluationResults, createChatHistory, updateChatHistory, getHistory
 import { fakerES as faker } from '@faker-js/faker';
 import { useAuth } from '../context/AuthContext';
 
-const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
-
 export default function ChatScreen() {
-  const baseUrl = 'http://localhost:8000/'  
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const { user } = useAuth();
   const { chatId } = useParams();
   const navigate = useNavigate();
@@ -479,7 +477,7 @@ export default function ChatScreen() {
 
       try {
         const response = await fetch(
-          `https://speech.googleapis.com/v1/speech:recognize?key=${GOOGLE_API_KEY}`,
+          baseUrl+"audio/transcribe/",
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -488,11 +486,10 @@ export default function ChatScreen() {
         );
 
         const data = await response.json();
-        if (data.results && data.results.length > 0) {
-          const transcript = data.results[0].alternatives[0].transcript;
-          handleSend(transcript, true);
+        if (data.transcript) {
+          handleSend(data.transcript, true);
         } else {
-          alert('No transcription results.');
+          console.error('No transcription results.');
         }
       } catch (error) {
         console.error('Error transcribing audio:', error);
