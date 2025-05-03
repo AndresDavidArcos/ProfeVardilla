@@ -1,12 +1,7 @@
 import os
 import unicodedata
 from django.conf import settings
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_chroma import Chroma
-from langchain_community.retrievers import BM25Retriever
-from langchain.retrievers import  EnsembleRetriever
 from langchain.schema import Document
-from sentence_transformers import CrossEncoder
 from groq import Groq
 from together import Together
 import time
@@ -72,7 +67,6 @@ else:
     llmClient = Groq(api_key=os.environ.get('GROQ_API_KEY'))
     model = "llama3-70b-8192"
 @timeit
-@profile
 def preprocess_query(query):
     query = query.lower()
     query = ''.join(c for c in unicodedata.normalize('NFD', query) if unicodedata.category(c) != 'Mn')
@@ -80,7 +74,6 @@ def preprocess_query(query):
     query = re.sub(r'[^\w\s]|_', '', query)    
     return query
 @timeit
-@profile
 def rerank_documents(query, documents, top_n=5):
     sentence_pairs = [(query, doc.page_content) for doc in documents]
     scores = rag.reranker.predict(sentence_pairs)    
@@ -134,7 +127,6 @@ def reconstruct_local_context(reranked_documents, chroma_collection):
     
     return final_documents
 @timeit
-@profile
 def generate_context(query_text):
     ensemble_results = rag.ensemble.invoke(query_text)    
     reranked_documents = rerank_documents(query_text, ensemble_results, 10)
@@ -160,7 +152,6 @@ def format_alpaca_prompt(instruction):
 ### Respuesta:
 """
 @timeit
-@profile
 def query_rag(query_text):
     query = preprocess_query(query_text)
     context, final_documents = generate_context(query)

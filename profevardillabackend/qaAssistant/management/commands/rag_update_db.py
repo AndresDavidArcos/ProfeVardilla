@@ -130,8 +130,9 @@ class Command(BaseCommand):
         def add_to_chroma(chunks: list[Document]):
             client = chromadb.PersistentClient(path=CHROMA_PATH)
             collection_name = "desarrollo_software"
+            #Alibaba-NLP/gte-Qwen2-1.5B-instruct
             embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
-                model_name="Alibaba-NLP/gte-Qwen2-1.5B-instruct"    
+                model_name="intfloat/multilingual-e5-small"
             )
 
             if collection_name in client.list_collections():
