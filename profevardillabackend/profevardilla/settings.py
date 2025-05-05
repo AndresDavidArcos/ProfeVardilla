@@ -28,10 +28,10 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
-
-# Application definition
+CORS_ALLOWED_ORIGINS = os.getenv("DJANGO_CORS_ALLOWED_ORIGINS").split(",")
+CSRF_TRUSTED_ORIGINS = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS").split(",")
 
 INSTALLED_APPS = [
     'django.contrib.admin',
