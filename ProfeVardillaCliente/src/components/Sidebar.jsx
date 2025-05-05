@@ -16,7 +16,7 @@ export default function Sidebar() {
     const loadHistory = async () => {
       try {
         if (user) {
-          const response = await getHistoryList(user.$id);
+          const response = await getHistoryList(user.uid);
           const sortedChats = response.documents
             .sort((a, b) => new Date(b.$updatedAt) - new Date(a.$updatedAt))
             .map(chat => ({

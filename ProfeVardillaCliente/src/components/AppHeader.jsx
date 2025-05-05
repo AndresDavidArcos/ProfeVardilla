@@ -3,13 +3,19 @@ import Uvardilla from '../assets/Uvardilla';
 import { LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function AppHeader(){
 const { user, userLoading, login, logout } = useAuth();
 const [isMenuOpen, setIsMenuOpen] = useState(false);
 const [currentChatName, setCurrentChatName] = useState('');
 const { chatId } = useParams();
+const navigate = useNavigate();
+
+const handleLogout = () => {
+  logout();
+  navigate(`/`);          
+}
 
 const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -59,7 +65,7 @@ return <header className="bg-white shadow-sm fixed top-0 w-full z-10">
         className="flex items-center gap-2 cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors"
       >
         <img
-          src={user.prefs?.photoURL || `https://ui-avatars.com/api/?name=${user.name}&background=ff0000&color=fff`}//TO DO: poner foto de perfil, ver foro de appwrite
+          src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName}&background=ff0000&color=fff`}
           alt="Perfil de usuario"
           className="w-8 h-8 rounded-full"
         />
@@ -70,7 +76,7 @@ return <header className="bg-white shadow-sm fixed top-0 w-full z-10">
       {isMenuOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           >
             <LogOut className="w-4 h-4 mr-2 text-red-600" />

@@ -1,7 +1,6 @@
-// src/context/AuthContext.jsx
 import { createContext, useContext, useEffect, useState } from 'react';
-import { loginWithGoogle, logoutUser, getUser } from '../services/auth';
-
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, loginWithGoogle,  logout as logoutFirebase } from '../services/firebase';
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -9,29 +8,29 @@ export function AuthProvider({ children }) {
   const [userLoading, setuserLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const userData = await getUser();
+      const unsubscribe = onAuthStateChanged(auth, (userData) => {
+        console.log("Usuario autenticado:", userData);
         setUser(userData);
-      } catch (error) {
-        setUser(null);
-      } finally {
         setuserLoading(false);
-      }
-    };
+      });
     
-    checkAuth();
+      return () => unsubscribe();
   }, []);
 
   const login = async () => {
-    loginWithGoogle();
-    const userData = await getUser();
-    setUser(userData);
+    try {
+      await loginWithGoogle();
+    } catch (err) {
+      console.error("Error al loguear:", err);
+    }
   };
-
+  
   const logout = async () => {
-    await logoutUser();
-    setUser(null);
+    try {
+      await logoutFirebase();
+    } catch (err) {
+      console.error("Error al cerrar sesión:", err);
+    }
   };
 
   return (

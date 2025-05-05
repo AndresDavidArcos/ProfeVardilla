@@ -33,7 +33,7 @@ export default function ChatScreen() {
         timestamp: new Date(), id: Date.now()
       }] 
       console.log("user: ", currentUser)
-      const newChatId = await createChatHistory(currentUser.$id, option.value, `${faker.word.adjective()} ${faker.animal.type()}`, initialMessage);
+      const newChatId = await createChatHistory(currentUser.uid, option.value, `${faker.word.adjective()} ${faker.animal.type()}`, initialMessage);
       navigate(`/chat/${newChatId}`);         
     }
   };
@@ -58,6 +58,7 @@ export default function ChatScreen() {
   const evaluationId  = useRef(null);
   const chatName = useRef(null);
   const initialMessagesRef = useRef([]);
+  const lastMessageRef = useRef(null);
 
   useEffect(() => {
     userRef.current = user;
@@ -151,6 +152,11 @@ export default function ChatScreen() {
         const res = await updateChatHistory(currentChatId, messages)
         console.log("actualizacion en la db del historial desde el use effect con: ", res)
       }
+
+      if (lastMessageRef.current) {
+        lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+
     }
     saveMessagesToDb();
   }, [messages]);
@@ -338,7 +344,7 @@ export default function ChatScreen() {
       timestamp: new Date(),
     }]
 
-    const newChatId = await createChatHistory(user.$id, 'practice', `${faker.word.adjective()} ${faker.animal.type()}`, initialMessage, selectedIndicatorDetails, questionsPerIndicator);
+    const newChatId = await createChatHistory(user.uid, 'practice', `${faker.word.adjective()} ${faker.animal.type()}`, initialMessage, selectedIndicatorDetails, questionsPerIndicator);
     navigate(`/chat/${newChatId}`);     
   };
 
@@ -377,7 +383,7 @@ export default function ChatScreen() {
         },
       ]);
 
-      saveEvaluationResults(user.$id, evaluationResults, chatName.current);
+      saveEvaluationResults(user.uid, evaluationResults, chatName.current);
       updateChatHasResults(evaluationId.current, true);
       setHasResults(true);
       return;
@@ -504,20 +510,24 @@ export default function ChatScreen() {
     {/* Chat Container */}
       <div className="max-w-4xl mx-auto pt-16 pb-24 px-4">
         <div className="space-y-4 py-4">
-          {messages.map((message, index) => (
-            <div key={index}>
-              <ChatMessage key={message.id} message={message} pdfBaseUrl={baseUrl+'static/'}/>
-              {message.showIndicators && showLearningIndicators && (
-                <div className="mt-4">
-                  <LearningIndicators
-                    onStartEvaluation={handleStartEvaluation}
-                    questionsPerIndicator={questionsPerIndicator}
-                    setQuestionsPerIndicator={setQuestionsPerIndicator}
-                  />
-                </div>
-              )}
-           </div>
-          ))}
+          {messages.map((message, index) => {
+            const isLastMessage = index === messages.length - 1;
+
+            return (
+              <div key={index} ref={isLastMessage ? lastMessageRef : null}>
+                <ChatMessage key={message.id} message={message} pdfBaseUrl={baseUrl+'static/'}/>
+                {message.showIndicators && showLearningIndicators && (
+                  <div className="mt-4">
+                    <LearningIndicators
+                      onStartEvaluation={handleStartEvaluation}
+                      questionsPerIndicator={questionsPerIndicator}
+                      setQuestionsPerIndicator={setQuestionsPerIndicator}
+                    />
+                  </div>
+                )}
+             </div>
+            )
+          })}
 
           {isLoading && (
             <div className="flex justify-start">
@@ -536,6 +546,11 @@ export default function ChatScreen() {
           <div className="flex items-end space-x-2">
             <textarea
               value={inputText}
+              onPaste={(e) => {
+                e.preventDefault();                
+                const pastedText = e.clipboardData.getData('text').trimEnd();                
+                setInputText(inputText + pastedText);
+              }}
               onChange={(e) => setInputText(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder="Escribe un mensaje..."

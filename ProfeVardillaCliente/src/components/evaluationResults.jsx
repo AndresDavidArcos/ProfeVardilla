@@ -23,7 +23,7 @@ export default function EvaluationResults() {
     const loadResults = async () => {
       if (user) {
         try {
-          const response = await getEvaluationResults(user.$id);
+          const response = await getEvaluationResults(user.uid);
           console.log("response en evaluationresults: ", response)
           const parsedData = response.documents.map(doc => {
           const results = JSON.parse(doc.results || '{}');

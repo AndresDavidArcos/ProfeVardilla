@@ -43,9 +43,8 @@ const createChatHistory = async (
   selectedIndicatorDetails = null, 
   questionsPerIndicator = null
 ) => {
+  let evaluationId = null;
   try {
-    let evaluationId = null;
-
     if (mode === 'practice') {
       const evaluationResponse = await databases.createDocument(
         DB_ID,
