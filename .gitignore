@@ -11,6 +11,7 @@ env/
 Pipfile
 Pipfile.lock
 models
+cloud-init.yml
 
 # Django-specific
 *.log
