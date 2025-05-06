@@ -1,6 +1,6 @@
 services:
     assistant_rag:
-        build: .
+        image: andresdavidarcos/profevardilla:latest
         env_file: .env
         volumes:
         - ./models:/root/.cache/huggingface
