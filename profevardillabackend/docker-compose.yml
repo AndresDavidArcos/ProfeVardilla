@@ -4,6 +4,8 @@ services:
         env_file: .env
         volumes:
         - ./models:/root/.cache/huggingface
+        networks:
+        - caddy
         labels:
           caddy: api.profevardilla.xyz
           caddy.reverse_proxy: "{{upstreams 8000}}"
