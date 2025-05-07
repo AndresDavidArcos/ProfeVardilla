@@ -106,6 +106,8 @@ export default function ChatScreen() {
         } else {
           setCurrentChatId(null);
           setSelectedPath(null);
+          console.log("welcome: ", user)
+
           if(!user){
             setMessages([{
               id: 1,
