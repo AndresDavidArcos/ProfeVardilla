@@ -105,18 +105,28 @@ export default function ChatScreen() {
           }          
         } else {
           setCurrentChatId(null);
-          setSelectedPath(null);          
-          setMessages([{
-            id: 1,
-            text: "¡Hola! ¿Listo para practicar? ¿Quieres demostrar tus conocimientos o tienes dudas sobre algún tema?",
-            sender: 'assistant',
-            options: [
-              { text: "Demostrar conocimientos", value: "practice" },
-              { text: "Tengo dudas", value: "doubts" }
-            ],  
-            onOptionSelect: handleOptionSelect,
-            timestamp: new Date(),
-          }]);
+          setSelectedPath(null);
+          if(!user){
+            setMessages([{
+              id: 1,
+              text: "¡Bienvenido a ProfeVardilla!\nAquí podrás resolver tus dudas y poner a prueba tus conocimientos. Para continuar, por favor inicia sesión.",
+              sender: 'assistant',
+              timestamp: new Date(),
+            }]);            
+          }else{
+            setMessages([{
+              id: 1,
+              text: "¡Hola! ¿Listo para practicar? ¿Quieres poner a prueba tus conocimientos o tienes dudas sobre algún tema?",
+              sender: 'assistant',
+              options: [
+                { text: "Demostrar conocimientos", value: "practice" },
+                { text: "Tengo dudas", value: "doubts" }
+              ],  
+              onOptionSelect: handleOptionSelect,
+              timestamp: new Date(),
+            }]);
+          }     
+
         }
       } catch (error) {
         console.error('Error loading chat history:', error);
