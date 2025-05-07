@@ -138,7 +138,7 @@ export default function ChatScreen() {
     };
   
     loadChat();
-  }, [chatId]);
+  }, [chatId, user]);
 
   useEffect(() => {
     console.log("entra al efecto del evaluationqueue")
