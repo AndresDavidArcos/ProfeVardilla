@@ -1,12 +1,15 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from qaAssistant.decorators import firebase_auth_required, firebase_rate_limit
 from .rag_query import query_rag  
 import traceback
 from .question import generate_questions
 from .answer import process_answer
 
 @api_view(['POST'])
+@firebase_auth_required
+@firebase_rate_limit(rate='15/m')
 def ask_question(request):
     question = request.data.get('question')
     
@@ -20,8 +23,9 @@ def ask_question(request):
         print("ocurrio un error: ", traceback.format_exc())
         return Response({"error": f"Ocurrió un error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
 @api_view(['POST'])
+@firebase_auth_required
+@firebase_rate_limit(rate='15/m')
 def generate_question_view(request):
     indicator = request.data.get('indicator')
     questionsPerIndicator = request.data.get('questionsPerIndicator')
@@ -43,6 +47,8 @@ def generate_question_view(request):
         return Response({"error": f"Ocurrió un error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
+@firebase_auth_required
+@firebase_rate_limit(rate='15/m')
 def process_answer_view(request):
     question = request.data.get('question')
     student_answer = request.data.get('answer')

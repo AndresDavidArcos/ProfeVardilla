@@ -4,6 +4,7 @@ services:
         env_file: .env
         volumes:
         - ./models:/root/.cache/huggingface
+        - ./firebase_key.json:/app/qaAssistant/firebase_key.json 
         networks:
         - caddy
         labels:

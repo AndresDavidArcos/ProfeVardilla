@@ -33,8 +33,32 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const secureFetch = async (url, options = {}) => {
+    if (!auth.currentUser) {
+      throw new Error("Usuario no autenticado");
+    }
+    
+    const token = await auth.currentUser.getIdToken();
+    
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        ...options.headers,
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+  
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || 'Error en la solicitud');
+    }
+  
+    return await response.json();
+  };
+
   return (
-    <AuthContext.Provider value={{ user, userLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, userLoading, login, logout, secureFetch }}>
       {children}
     </AuthContext.Provider>
   );

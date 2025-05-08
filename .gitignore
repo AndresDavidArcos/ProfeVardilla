@@ -12,7 +12,7 @@ Pipfile
 Pipfile.lock
 models
 cloud-init.yml
-
+firebase_key.json
 # Django-specific
 *.log
 db.sqlite3

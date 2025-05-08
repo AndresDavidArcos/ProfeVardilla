@@ -20,4 +20,6 @@ pillow
 uvicorn
 gunicorn
 psutil
+firebase-admin
+django_ratelimit
 torch==2.6.0

@@ -2,10 +2,13 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import requests
 import os
+from qaAssistant.decorators import firebase_auth_required, firebase_rate_limit
 
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 
 @api_view(['POST'])
+@firebase_auth_required
+@firebase_rate_limit(rate='15/m')
 def transcribe_audio(request):
     try:
         config = request.data.get('config', {})

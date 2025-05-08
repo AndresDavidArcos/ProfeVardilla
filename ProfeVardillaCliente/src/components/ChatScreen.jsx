@@ -11,7 +11,7 @@ import { useAuth } from '../context/AuthContext';
 
 export default function ChatScreen() {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
-  const { user } = useAuth();
+  const { user, secureFetch } = useAuth();
   const { chatId } = useParams();
   const navigate = useNavigate();
 
@@ -194,53 +194,44 @@ export default function ChatScreen() {
 
       try {
         if (selectedPath === 'doubts') {
-          const response = await fetch(baseUrl+'assistant/ask/', {
+          const data = await secureFetch(baseUrl+'assistant/ask/', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
             body: JSON.stringify({ question: text }),
           });
-          const data = await response.json();
-          if (response.ok) {
-            console.log("respuesta del servidor: ",data.answer)
-            const answerText = data.answer || 'Lo siento, no tengo una respuesta para eso.';
-            setMessages((prev) => [
-              ...prev,
-              {
-                id: Date.now(),
-                text: answerText,
-                documents: data.documents,
-                sender: 'assistant',
-                timestamp: new Date(),
-              },
-            ]);
-            if (isAudioQuery) {
-              console.log("is audio query")
-              const plainText = removeMarkdown(answerText);
-              console.log("plaintext: ", plainText)
-              const utterance = new SpeechSynthesisUtterance(plainText);
-              utterance.lang = 'es-ES';
-              utterance.onstart = () => setIsSpeaking(true);
-              utterance.onend = () => setIsSpeaking(false);
-              window.speechSynthesis.speak(utterance);
-            }
-          }else {
-            console.error('Error en la respuesta del servidor:', data);
+
+          console.log("respuesta del servidor: ",data.answer)
+          const answerText = data.answer || 'Lo siento, no tengo una respuesta para eso.';
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: Date.now(),
+              text: answerText,
+              documents: data.documents,
+              sender: 'assistant',
+              timestamp: new Date(),
+            },
+          ]);
+          if (isAudioQuery) {
+            console.log("is audio query")
+            const plainText = removeMarkdown(answerText);
+            console.log("plaintext: ", plainText)
+            const utterance = new SpeechSynthesisUtterance(plainText);
+            utterance.lang = 'es-ES';
+            utterance.onstart = () => setIsSpeaking(true);
+            utterance.onend = () => setIsSpeaking(false);
+            window.speechSynthesis.speak(utterance);
           }
+          
         }else if(selectedPath === 'practice'){
           if (currentQuestion) {
-            const response = await fetch(baseUrl + 'assistant/answer/', {
+            const data = await secureFetch(baseUrl + 'assistant/answer/', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
               body: JSON.stringify({
                 question: currentQuestion.questionText,
                 answer: text,
               }),
-            });
-            const data = await response.json();
+            });            
+
             const updatedResults = {
               ...evaluationResults,
               [currentQuestion.indicatorId]: [
@@ -298,29 +289,23 @@ export default function ChatScreen() {
     const queue = [];
     for (const [id, indicator] of Object.entries(selectedIndicatorDetails)) {
       try {
-        const response = await fetch(baseUrl + 'assistant/question/', {
+        const data = await secureFetch(baseUrl + 'assistant/question/', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             indicator,
             questionsPerIndicator: questionsNumber,           
           }),
         });
-        const data = await response.json();
-        console.log("questions generated for ", indicator, "\n\n\n",data)
   
-        if (response.ok && data.questions) {
-          data.questions.forEach((question, questionNumber) => {
-            queue.push({
-              indicatorId: id,
-              indicator,
-              questionText: question,
-              questionNumber: questionNumber+1
-            });
-          });         
-        } else {
-          console.error('Error al obtener preguntas para el indicador:', id, data);
-        }
+        data.questions.forEach((question, questionNumber) => {
+          queue.push({
+            indicatorId: id,
+            indicator,
+            questionText: question,
+            questionNumber: questionNumber+1
+          });
+        });
+        
       } catch (error) {
         console.error('Error al hacer la solicitud a la API:', error);
       }
@@ -494,16 +479,14 @@ export default function ChatScreen() {
       };
 
       try {
-        const response = await fetch(
+        const data = await secureFetch(
           baseUrl+"audio/transcribe/",
           {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody),
           }
         );
 
-        const data = await response.json();
         if (data.transcript) {
           handleSend(data.transcript, true);
         } else {
