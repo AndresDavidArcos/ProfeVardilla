@@ -10,9 +10,7 @@ services:
       - caddy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - caddy_data:/data
-    labels:
-      - "caddy.handle_errors"      
+      - caddy_data:/data  
     restart: unless-stopped
 
 networks:
