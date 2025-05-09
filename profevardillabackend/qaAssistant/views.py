@@ -8,8 +8,8 @@ from .question import generate_questions
 from .answer import process_answer
 
 @api_view(['POST'])
-@firebase_auth_required
 @firebase_rate_limit(rate='15/m')
+@firebase_auth_required
 def ask_question(request):
     question = request.data.get('question')
     
@@ -24,8 +24,8 @@ def ask_question(request):
         return Response({"error": f"Ocurrió un error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
-@firebase_auth_required
 @firebase_rate_limit(rate='15/m')
+@firebase_auth_required
 def generate_question_view(request):
     indicator = request.data.get('indicator')
     questionsPerIndicator = request.data.get('questionsPerIndicator')
@@ -47,8 +47,8 @@ def generate_question_view(request):
         return Response({"error": f"Ocurrió un error: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
-@firebase_auth_required
 @firebase_rate_limit(rate='15/m')
+@firebase_auth_required
 def process_answer_view(request):
     question = request.data.get('question')
     student_answer = request.data.get('answer')
