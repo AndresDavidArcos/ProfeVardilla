@@ -27,7 +27,7 @@ def firebase_auth_required(view_func):
 
 def firebase_rate_limit(rate='10/m'):
     return ratelimit(
-        key=lambda req: f"fb_{req.firebase_user['uid']}",
+        key=lambda req, *args, **kwargs: f"fb_{req.firebase_user['uid']}",
         rate=rate,
         block=True
     )
